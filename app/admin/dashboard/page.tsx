@@ -35,9 +35,42 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] pb-24">
+    <div className="min-h-screen bg-[#FDFDFD] pb-24 lg:pb-0 lg:flex">
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-gray-100 p-6 fixed h-full z-30">
+        <div className="mb-10 px-2">
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Admin <span className="text-[#C24E00]">Panel</span></h2>
+        </div>
+        <nav className="flex-1 space-y-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
+                  isActive 
+                    ? "bg-[#C24E00] text-white shadow-lg shadow-orange-900/20" 
+                    : "text-[#333333] hover:bg-gray-50"
+                }`}
+              >
+                <Icon className={`h-5 w-5 ${isActive ? "stroke-[2.5px]" : "stroke-[1.8px]"}`} />
+                <span className="font-bold text-sm">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+        <div className="pt-6 border-t border-gray-100">
+           <button onClick={() => signOut()} className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-2xl transition-colors font-bold text-sm">
+             <LogOut className="h-5 w-5" />
+             Logout
+           </button>
+        </div>
+      </aside>
+
       {/* Main Content Area */}
-      <main className="max-w-2xl mx-auto p-6">
+      <main className="flex-1 lg:ml-64 p-4 sm:p-6 lg:p-10 max-w-5xl mx-auto w-full">
         {activeTab === "home" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
@@ -215,8 +248,8 @@ export default function AdminDashboard() {
         )}
       </main>
 
-      {/* Floating Footer Menu */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100/50 p-2 z-20">
+      {/* Floating Footer Menu (Mobile/Tablet only) */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100/50 p-2 z-20 lg:hidden">
         <nav className="flex justify-between items-center px-2 py-1">
           {navItems.map((item) => {
             const Icon = item.icon;

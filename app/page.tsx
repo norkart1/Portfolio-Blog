@@ -11,8 +11,19 @@ export default function BlogHome() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 pb-12">
+      {/* Navigation for Desktop */}
+      <header className="hidden md:flex items-center justify-between px-10 py-6 border-b border-gray-50 sticky top-0 bg-white/80 backdrop-blur-md z-30">
+        <div className="text-xl font-bold tracking-tight">Portfolio<span className="text-[#C24E00]">Blog</span></div>
+        <nav className="flex items-center gap-8">
+           <a href="#" className="text-sm font-bold text-gray-900">Home</a>
+           <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900">Articles</a>
+           <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900">About</a>
+           <a href="/admin/login" className="px-5 py-2.5 bg-[#C24E00] text-white rounded-xl text-sm font-bold shadow-lg shadow-orange-900/10 hover:opacity-90 transition-all">Admin</a>
+        </nav>
+      </header>
+
       {/* Hero Section */}
-      <section className="pt-16 pb-12 px-6 text-center">
+      <section className="pt-12 md:pt-24 pb-12 px-6 text-center">
         <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
           <Shield className="h-4 w-4" />
           Organizational Structure
@@ -87,29 +98,51 @@ export default function BlogHome() {
       </section>
 
       {/* Blog Feed */}
-      <section className="px-6 max-w-2xl mx-auto">
-        <div className="relative group cursor-pointer overflow-hidden rounded-[2.5rem] bg-gray-100 aspect-[4/3] mb-8 shadow-sm">
-          <img
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"
-            alt="Featured post"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div className="absolute top-6 left-6">
-            <div className="bg-[#FFB800] text-gray-900 font-bold text-[10px] tracking-widest uppercase px-4 py-2 rounded-xl shadow-lg">
-              Featured Article
-            </div>
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/60 to-transparent text-white">
-            <h2 className="text-2xl font-bold leading-tight">Preserving Heritage: The Role of Scholars in Modern Times</h2>
-            <div className="flex items-center gap-3 mt-4 text-sm font-medium opacity-90">
-              <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm uppercase">
-                A
+      <section className="px-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="relative group cursor-pointer overflow-hidden rounded-[2.5rem] bg-gray-100 aspect-[4/3] shadow-sm md:col-span-2 lg:col-span-2">
+            <img
+              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"
+              alt="Featured post"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute top-6 left-6">
+              <div className="bg-[#FFB800] text-gray-900 font-bold text-[10px] tracking-widest uppercase px-4 py-2 rounded-xl shadow-lg">
+                Featured Article
               </div>
-              <span>By Admin</span>
-              <span className="opacity-50">•</span>
-              <span>5 min read</span>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/60 to-transparent text-white">
+              <h2 className="text-2xl md:text-3xl font-bold leading-tight">Preserving Heritage: The Role of Scholars in Modern Times</h2>
+              <div className="flex items-center gap-3 mt-4 text-sm font-medium opacity-90">
+                <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm uppercase">
+                  A
+                </div>
+                <span>By Admin</span>
+                <span className="opacity-50">•</span>
+                <span>5 min read</span>
+              </div>
             </div>
           </div>
+          
+          {/* Recent items grid for larger screens */}
+          {[1, 2].map((i) => (
+            <div key={i} className="group cursor-pointer overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all">
+              <div className="aspect-video overflow-hidden">
+                <img 
+                  src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop&sig=${i}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  alt="Post thumbnail"
+                />
+              </div>
+              <div className="p-6">
+                 <div className="flex items-center gap-2 mb-3">
+                   <span className="text-[#A16207] text-[10px] font-black uppercase tracking-widest">Article</span>
+                 </div>
+                 <h3 className="font-bold text-lg mb-2 line-clamp-2">The Future of Digital Preservation and Academic Excellence</h3>
+                 <p className="text-gray-500 text-sm line-clamp-2">Exploring new methodologies for maintaining historical records in a rapidly changing world.</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
