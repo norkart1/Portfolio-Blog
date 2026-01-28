@@ -94,26 +94,43 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      if (status === "authenticated") {
+        try {
+          const [catRes, postRes] = await Promise.all([
+            axios.get("/api/categories"),
+            axios.get("/api/posts")
+          ]);
+          setCategories(Array.isArray(catRes.data) ? catRes.data : []);
+          setPosts(Array.isArray(postRes.data) ? postRes.data : []);
+        } catch (error) {
+          console.error("Error fetching dashboard data:", error);
+        }
+      }
+    };
+
     if (status === "unauthenticated") {
       router.push("/admin/login");
-    }
-    if (status === "authenticated") {
-      fetch("/api/categories").then(res => res.json()).then(data => setCategories(Array.isArray(data) ? data : []));
-      fetch("/api/posts").then(res => res.json()).then(data => setPosts(Array.isArray(data) ? data : []));
+    } else if (status === "authenticated") {
+      fetchData();
     }
   }, [status, router]);
 
   const handleAddCategory = async () => {
-    if (!newCategory) return;
+    if (!newCategory.trim()) {
+      alert("Please enter a category name");
+      return;
+    }
     try {
-      console.log("Adding category:", newCategory);
-      const response = await axios.post("/api/categories", { name: newCategory });
+      console.log("Adding category:", newCategory.trim());
+      const response = await axios.post("/api/categories", { name: newCategory.trim() });
       console.log("Server response:", response.data);
       setCategories(prev => [...prev, response.data]);
       setNewCategory("");
     } catch (err: any) {
       console.error("Add category error:", err);
-      alert(err.response?.data?.error || err.message || "Failed to add category");
+      const errorMsg = err.response?.data?.error || err.message || "Failed to add category";
+      alert(errorMsg);
     }
   };
 
@@ -402,8 +419,14 @@ export default function AdminDashboard() {
                   type="text" 
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddCategory();
+                    }
+                  }}
                   placeholder="New Category Name (e.g. Novels)" 
-                  className="flex-1 p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 w-full" 
+                  className="flex-1 p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 w-full text-gray-900" 
                 />
                 <button 
                   type="button"
@@ -411,8 +434,9 @@ export default function AdminDashboard() {
                     e.preventDefault();
                     handleAddCategory();
                   }}
-                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 active:scale-95 transition-all w-full sm:w-auto cursor-pointer relative z-50"
+                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 active:scale-95 transition-all w-full sm:w-auto cursor-pointer relative z-50 flex items-center justify-center gap-2"
                 >
+                  <PlusCircle className="h-5 w-5" />
                   Add
                 </button>
               </div>
