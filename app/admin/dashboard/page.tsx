@@ -73,9 +73,13 @@ export default function AdminDashboard() {
         )}
 
         {activeTab === "add" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+              <Shield className="h-4 w-4" />
+              Organizational Structure
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Create New Post</h2>
-            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6">
+            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6 text-left">
               <input type="text" placeholder="Post Title" className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 text-lg" />
               <textarea placeholder="Write your content here..." rows={12} className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg"></textarea>
               <button className="w-full py-5 bg-[#C24E00] text-white font-bold rounded-2xl shadow-xl shadow-orange-900/10 hover:opacity-95 transition-all text-lg">
@@ -86,9 +90,13 @@ export default function AdminDashboard() {
         )}
 
         {activeTab === "posts" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+              <Shield className="h-4 w-4" />
+              Organizational Structure
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Your Posts</h2>
-            <div className="space-y-6">
+            <div className="space-y-6 text-left">
               {[1, 2, 3].map(i => (
                 <div key={i} className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-between group hover:shadow-md transition-shadow">
                   <div>
@@ -103,9 +111,13 @@ export default function AdminDashboard() {
         )}
 
         {activeTab === "status" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+              <Shield className="h-4 w-4" />
+              Organizational Structure
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-8">System Status</h2>
-            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-8">
+            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-8 text-left">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 text-lg font-medium">Database Connection</span>
                 <span className="flex items-center text-green-600 font-bold gap-3">
@@ -129,7 +141,11 @@ export default function AdminDashboard() {
         )}
 
         {activeTab === "profile" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+              <Shield className="h-4 w-4" />
+              Organizational Structure
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Admin Profile</h2>
             <div className="bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 text-center">
               <div className="h-32 w-32 bg-[#C24E00] rounded-[2.5rem] mx-auto flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl shadow-orange-900/20">
