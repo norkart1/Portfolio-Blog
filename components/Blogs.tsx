@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Search, Languages, Loader2, BookOpen } from "lucide-react";
+import { Search, Languages, Loader2, BookOpen, Heart } from "lucide-react";
 
 const Blogs = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -21,6 +21,15 @@ const Blogs = () => {
         setLoading(false);
       });
   }, []);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    }).toUpperCase();
+  };
 
   const filteredPosts = posts.filter((post: any) => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -89,14 +98,14 @@ const Blogs = () => {
       </section>
 
       {/* Blog Feed */}
-      <div className="space-y-6">
+      <div className="space-y-8">
         {loading ? (
           <div className="flex justify-center py-20">
             <Loader2 className="animate-spin h-10 w-10 text-[#C24E00]" />
           </div>
         ) : filteredPosts.length > 0 ? (
           filteredPosts.map((post: any) => (
-            <div key={post._id} className="relative bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <div key={post._id} className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
                   src={post.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
@@ -104,10 +113,44 @@ const Blogs = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-5">
-                <h3 className="font-bold text-2xl mb-2 text-gray-900 leading-tight">
+              
+              <div className="p-8">
+                {/* Meta Info */}
+                <div className="flex items-center gap-2 mb-4 text-[10px] font-bold tracking-widest uppercase">
+                  <span className="text-[#C24E00]">
+                    {post.language === "en" ? "ENGLISH" : post.language?.toUpperCase() || "ENGLISH"}
+                  </span>
+                  <span className="text-gray-300">•</span>
+                  <span className="text-gray-400">
+                    {formatDate(post.createdAt)}
+                  </span>
+                </div>
+                
+                {/* Title */}
+                <h3 className="font-bold text-3xl mb-4 text-gray-900 leading-tight">
                   {post.title}
                 </h3>
+                
+                {/* Content Preview */}
+                <p className="text-gray-500 text-base leading-relaxed line-clamp-4 mb-8">
+                  {post.content}
+                </p>
+                
+                {/* Divider */}
+                <div className="h-px bg-gray-50 w-full mb-6"></div>
+                
+                {/* Footer */}
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <p className="font-bold text-sm text-gray-900 leading-tight">{post.author}</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm text-gray-400">
+                    <Heart className="h-4 w-4" />
+                    <span className="text-xs font-bold">{post.likes || 0}</span>
+                  </div>
+                </div>
               </div>
             </div>
           ))
