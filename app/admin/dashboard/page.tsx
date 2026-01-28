@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2 } from "lucide-react";
+import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2, Search, Globe, ChevronDown } from "lucide-react";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -90,6 +90,46 @@ export default function AdminDashboard() {
               <List className="h-4 w-4" />
               My Blog Posts
             </div>
+
+            {/* Search and Filters */}
+            <section className="px-6 mb-12">
+              <div className="max-w-xl mx-auto bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 p-6 text-left">
+                {/* Search Input */}
+                <div className="relative mb-6">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search articles..."
+                    className="w-full bg-[#F8F9FA] border-none rounded-2xl py-4 pl-12 pr-4 text-gray-600 focus:ring-2 focus:ring-[#C24E00]/10 outline-none"
+                  />
+                </div>
+
+                {/* Filter Bar */}
+                <div className="flex flex-wrap items-center gap-4">
+                  <button className="flex items-center gap-2 px-5 py-3 border border-gray-100 rounded-2xl text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                    <Globe className="h-5 w-5 text-[#C24E00]" />
+                    All Languages
+                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                  </button>
+                  
+                  <div className="flex items-center gap-2 bg-[#F8F9FA] p-1.5 rounded-2xl">
+                    {["ALL", "ARTICLE", "POEM"].map((cat) => (
+                      <button
+                        key={cat}
+                        className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${
+                          cat === "ALL"
+                            ? "bg-white text-gray-900 shadow-sm"
+                            : "text-gray-400 hover:text-gray-600"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
             <div className="max-w-4xl mx-auto space-y-8 text-left pb-12 px-2">
               {[1, 2, 3].map(i => (
                 <div key={i} className="group flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-all">
