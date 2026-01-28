@@ -3,9 +3,20 @@ import dbConnect from "@/lib/db/mongodb";
 import Post from "@/models/Post";
 import "@/models/Category"; // Pre-register Category model
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await dbConnect();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+      const post = await Post.findById(id).populate("category");
+      if (!post) {
+        return NextResponse.json({ error: "Post not found" }, { status: 404 });
+      }
+      return NextResponse.json(post);
+    }
+
     const posts = await Post.find({}).populate("category").sort({ createdAt: -1 });
     return NextResponse.json(posts);
   } catch (error: any) {
