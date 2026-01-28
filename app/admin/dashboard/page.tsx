@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock } from "lucide-react";
+import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2 } from "lucide-react";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -122,9 +122,14 @@ export default function AdminDashboard() {
                         <span>2 hours ago</span>
                       </div>
                     </div>
-                    <button className="h-8 w-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors self-start">
-                      <List className="h-5 w-5 text-gray-500" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button className="h-10 w-10 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-full transition-colors self-start" title="Edit">
+                        <PenTool className="h-5 w-5" />
+                      </button>
+                      <button className="h-10 w-10 flex items-center justify-center hover:bg-red-50 text-red-600 rounded-full transition-colors self-start" title="Delete">
+                        <Trash2 className="h-5 w-5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
