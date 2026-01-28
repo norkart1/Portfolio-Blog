@@ -41,8 +41,8 @@ export default function AdminDashboard() {
         {activeTab === "home" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Shield className="h-4 w-4" />
-              Organizational Structure
+              <Home className="h-4 w-4" />
+              Dashboard Overview
             </div>
             <h1 className="text-lg md:text-xl text-[#666666] max-w-2xl mx-auto leading-relaxed font-medium mb-12">
               Meet the dedicated scholars and board members working tirelessly to uphold our mission of excellence.
@@ -92,8 +92,8 @@ export default function AdminDashboard() {
         {activeTab === "posts" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Shield className="h-4 w-4" />
-              Organizational Structure
+              <List className="h-4 w-4" />
+              My Blog Posts
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Your Posts</h2>
             <div className="space-y-6 text-left">
@@ -113,10 +113,10 @@ export default function AdminDashboard() {
         {activeTab === "status" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Shield className="h-4 w-4" />
-              Organizational Structure
+              <Activity className="h-4 w-4" />
+              System Status
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">System Status</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Service Health</h2>
             <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-8 text-left">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 text-lg font-medium">Database Connection</span>
@@ -143,10 +143,10 @@ export default function AdminDashboard() {
         {activeTab === "profile" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Shield className="h-4 w-4" />
-              Organizational Structure
+              <User className="h-4 w-4" />
+              Admin Profile
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Admin Profile</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Account Settings</h2>
             <div className="bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 text-center">
               <div className="h-32 w-32 bg-[#C24E00] rounded-[2.5rem] mx-auto flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl shadow-orange-900/20">
                 {session.user?.name?.[0]}
