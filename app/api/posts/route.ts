@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db/mongodb";
 import Post from "@/models/Post";
+import "@/models/Category"; // Pre-register Category model
 
 export async function GET() {
-  await dbConnect();
   try {
+    await dbConnect();
     const posts = await Post.find({}).populate("category").sort({ createdAt: -1 });
     return NextResponse.json(posts);
   } catch (error: any) {
+    console.error("API Error [GET /api/posts]:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

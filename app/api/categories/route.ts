@@ -3,9 +3,14 @@ import dbConnect from "@/lib/db/mongodb";
 import Category from "@/models/Category";
 
 export async function GET() {
-  await dbConnect();
-  const categories = await Category.find({}).sort({ name: 1 });
-  return NextResponse.json(categories);
+  try {
+    await dbConnect();
+    const categories = await Category.find({}).sort({ name: 1 });
+    return NextResponse.json(categories);
+  } catch (error: any) {
+    console.error("API Error [GET /api/categories]:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {
