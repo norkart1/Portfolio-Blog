@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
-import TextStyle from '@tiptap/extension-text-style';
+import { TextStyle } from '@tiptap/extension-text-style';
 import { Bold as BoldIcon, Italic as ItalicIcon, List, ListOrdered, Type } from 'lucide-react';
 
 // Custom Font Size Extension because tiptap doesn't have a default one in starter kit
