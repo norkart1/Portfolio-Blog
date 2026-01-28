@@ -13,7 +13,7 @@ export default function AdminDashboard() {
 
   const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
-  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "", language: "en" });
+  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left" });
   const [uploading, setUploading] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
 
     if (res.ok) {
       alert("Post published successfully!");
-      setNewPost({ title: "", content: "", category: "", image: "", language: "en" });
+      setNewPost({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left" });
       setActiveTab("posts");
     }
   };
@@ -297,13 +297,35 @@ export default function AdminDashboard() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Content</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-bold text-gray-700">Content</label>
+                  <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">
+                    {(['left', 'center', 'right', 'justify'] as const).map((align) => (
+                      <button
+                        key={align}
+                        type="button"
+                        onClick={() => setNewPost({ ...newPost, textAlign: align })}
+                        className={`p-2 rounded-lg transition-all ${
+                          newPost.textAlign === align 
+                            ? "bg-white text-[#C24E00] shadow-sm" 
+                            : "text-gray-400 hover:text-gray-600"
+                        }`}
+                      >
+                        {align === 'left' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h10M4 18h16"></path></svg>}
+                        {align === 'center' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M7 12h10M4 18h16"></path></svg>}
+                        {align === 'right' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M10 12h10M4 18h16"></path></svg>}
+                        {align === 'justify' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <textarea 
                   placeholder="Write your story here..." 
                   rows={12} 
                   value={newPost.content}
                   onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                  className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg"
+                  style={{ textAlign: newPost.textAlign as any }}
+                  className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg text-gray-900 shadow-inner"
                 ></textarea>
               </div>
 

@@ -9,6 +9,7 @@ export interface IPost {
   author: string;
   readTime: string;
   language: string;
+  textAlign: string;
   createdAt: Date;
 }
 
@@ -21,6 +22,7 @@ const PostSchema = new Schema<IPost>(
     author: { type: String, required: true },
     readTime: { type: String, required: true },
     language: { type: String, default: "en" },
+    textAlign: { type: String, default: "left" },
   },
   { timestamps: true }
 );
