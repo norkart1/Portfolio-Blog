@@ -75,15 +75,15 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleDeleteCategory = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this category?")) return;
-    const res = await fetch(`/api/categories/${id}`, {
-      method: "DELETE",
-    });
+  const handleDeletePost = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this post?")) return;
+    const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
     if (res.ok) {
-      setCategories(categories.filter(c => c._id !== id));
+      setPosts(posts.filter(p => p._id !== id));
     }
   };
+
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -91,6 +91,7 @@ export default function AdminDashboard() {
     }
     if (status === "authenticated") {
       fetch("/api/categories").then(res => res.json()).then(data => setCategories(Array.isArray(data) ? data : []));
+      fetch("/api/posts").then(res => res.json()).then(data => setPosts(Array.isArray(data) ? data : []));
     }
   }, [status, router]);
 
@@ -321,12 +322,12 @@ export default function AdminDashboard() {
             </section>
 
             <div className="max-w-4xl mx-auto space-y-8 text-left pb-12 px-2">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="group flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-all">
+              {posts.map(post => (
+                <div key={post._id} className="group flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-all">
                   {/* Blog Thumbnail */}
                   <div className="relative w-full sm:w-48 h-48 shrink-0 overflow-hidden rounded-[2rem] bg-gray-50">
                     <img 
-                      src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop`} 
+                      src={post.image || `https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop`} 
                       alt="Post thumbnail"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -337,27 +338,27 @@ export default function AdminDashboard() {
                     <div>
                       <div className="flex items-center gap-2 mb-3">
                         <span className="bg-[#FFF9F2] text-[#A16207] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                          Article
+                          {post.category?.name || "Uncategorized"}
                         </span>
                         <span className="text-gray-300 text-xs">•</span>
-                        <span className="text-gray-400 text-xs font-medium">5 min read</span>
+                        <span className="text-gray-400 text-xs font-medium">{post.readTime}</span>
                       </div>
                       <h4 className="text-xl font-bold text-gray-900 leading-tight group-hover:text-[#C24E00] transition-colors line-clamp-2 mb-3">
-                        How to build a professional Next.js application from scratch - Part {i}
+                        {post.title}
                       </h4>
                       <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">
-                        Learn the best practices for building scalable React applications using the latest Next.js features and modern web development tools.
+                        {post.content}
                       </p>
                     </div>
                     
                     <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-50">
                       <div className="flex items-center gap-3">
                         <div className="h-8 w-8 rounded-xl bg-[#C24E00] flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-orange-900/20">
-                          A
+                          {post.author[0]}
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-gray-900 leading-none">Admin</p>
-                          <p className="text-[10px] text-gray-400 mt-1">Jan 28, 2026</p>
+                          <p className="text-xs font-bold text-gray-900 leading-none">{post.author}</p>
+                          <p className="text-[10px] text-gray-400 mt-1">{new Date(post.createdAt).toLocaleDateString()}</p>
                         </div>
                       </div>
                       
@@ -365,7 +366,7 @@ export default function AdminDashboard() {
                         <button className="h-10 w-10 flex items-center justify-center bg-gray-50 text-blue-600 rounded-2xl hover:bg-blue-50 transition-colors" title="Edit">
                           <PenTool className="h-5 w-5" />
                         </button>
-                        <button className="h-10 w-10 flex items-center justify-center bg-gray-50 text-red-600 rounded-2xl hover:bg-red-50 transition-colors" title="Delete">
+                        <button onClick={() => handleDeletePost(post._id)} className="h-10 w-10 flex items-center justify-center bg-gray-50 text-red-600 rounded-2xl hover:bg-red-50 transition-colors" title="Delete">
                           <Trash2 className="h-5 w-5" />
                         </button>
                       </div>
@@ -373,6 +374,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               ))}
+              {posts.length === 0 && (
+                <div className="text-center py-20 text-gray-400">No posts found. Start by creating one!</div>
+              )}
             </div>
           </div>
         )}

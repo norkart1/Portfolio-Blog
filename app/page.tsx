@@ -1,13 +1,43 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Globe, ChevronDown, Book, Shield, BookOpen, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Globe, ChevronDown, Book, Shield, BookOpen, Clock, Loader2 } from "lucide-react";
 
 export default function BlogHome() {
   const [activeFilter, setActiveFilter] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [posts, setPosts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = ["ALL", "ARTICLE", "POEM"];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [postsRes, catsRes] = await Promise.all([
+          fetch("/api/posts"),
+          fetch("/api/categories")
+        ]);
+        const [postsData, catsData] = await Promise.all([
+          postsRes.json(),
+          catsRes.json()
+        ]);
+        setPosts(Array.isArray(postsData) ? postsData : []);
+        setCategories(Array.isArray(catsData) ? catsData : []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         post.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = activeFilter === "ALL" || post.category?.name === activeFilter;
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 pb-12">
@@ -39,7 +69,7 @@ export default function BlogHome() {
               <BookOpen className="h-6 w-6 text-[#A16207]" />
             </div>
             <div>
-              <p className="text-2xl font-black text-gray-900 leading-none">12</p>
+              <p className="text-2xl font-black text-gray-900 leading-none">{posts.length}</p>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Published</p>
             </div>
           </div>
@@ -48,7 +78,7 @@ export default function BlogHome() {
               <Clock className="h-6 w-6 text-[#A16207]" />
             </div>
             <div>
-              <p className="text-2xl font-black text-gray-900 leading-none">4</p>
+              <p className="text-2xl font-black text-gray-900 leading-none">0</p>
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pending</p>
             </div>
           </div>
@@ -79,17 +109,27 @@ export default function BlogHome() {
             </button>
             
             <div className="flex items-center gap-2 bg-[#F8F9FA] p-1.5 rounded-2xl">
+              <button
+                onClick={() => setActiveFilter("ALL")}
+                className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${
+                  activeFilter === "ALL"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-400 hover:text-gray-600"
+                }`}
+              >
+                ALL
+              </button>
               {categories.map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setActiveFilter(cat)}
+                  key={cat._id}
+                  onClick={() => setActiveFilter(cat.name)}
                   className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${
-                    activeFilter === cat
+                    activeFilter === cat.name
                       ? "bg-white text-gray-900 shadow-sm"
                       : "text-gray-400 hover:text-gray-600"
                   }`}
                 >
-                  {cat}
+                  {cat.name.toUpperCase()}
                 </button>
               ))}
             </div>
@@ -99,51 +139,64 @@ export default function BlogHome() {
 
       {/* Blog Feed */}
       <section className="px-6 max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="relative group cursor-pointer overflow-hidden rounded-[2.5rem] bg-gray-100 aspect-[4/3] shadow-sm md:col-span-2 lg:col-span-2">
-            <img
-              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"
-              alt="Featured post"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute top-6 left-6">
-              <div className="bg-[#FFB800] text-gray-900 font-bold text-[10px] tracking-widest uppercase px-4 py-2 rounded-xl shadow-lg">
-                Featured Article
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/60 to-transparent text-white">
-              <h2 className="text-2xl md:text-3xl font-bold leading-tight">Preserving Heritage: The Role of Scholars in Modern Times</h2>
-              <div className="flex items-center gap-3 mt-4 text-sm font-medium opacity-90">
-                <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm uppercase">
-                  A
-                </div>
-                <span>By Admin</span>
-                <span className="opacity-50">•</span>
-                <span>5 min read</span>
-              </div>
-            </div>
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="animate-spin h-10 w-10 text-[#C24E00]" />
           </div>
-          
-          {/* Recent items grid for larger screens */}
-          {[1, 2].map((i) => (
-            <div key={i} className="group cursor-pointer overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all">
-              <div className="aspect-video overflow-hidden">
-                <img 
-                  src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop&sig=${i}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  alt="Post thumbnail"
-                />
+        ) : filteredPosts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Featured Post */}
+            <div className="relative group cursor-pointer overflow-hidden rounded-[2.5rem] bg-gray-100 aspect-[4/3] shadow-sm md:col-span-2 lg:col-span-2">
+              <img
+                src={filteredPosts[0].image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
+                alt={filteredPosts[0].title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute top-6 left-6">
+                <div className="bg-[#FFB800] text-gray-900 font-bold text-[10px] tracking-widest uppercase px-4 py-2 rounded-xl shadow-lg">
+                  Featured {filteredPosts[0].category?.name}
+                </div>
               </div>
-              <div className="p-6">
-                 <div className="flex items-center gap-2 mb-3">
-                   <span className="text-[#A16207] text-[10px] font-black uppercase tracking-widest">Article</span>
-                 </div>
-                 <h3 className="font-bold text-lg mb-2 line-clamp-2">The Future of Digital Preservation and Academic Excellence</h3>
-                 <p className="text-gray-500 text-sm line-clamp-2">Exploring new methodologies for maintaining historical records in a rapidly changing world.</p>
+              <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/60 to-transparent text-white">
+                <h2 className="text-2xl md:text-3xl font-bold leading-tight">{filteredPosts[0].title}</h2>
+                <div className="flex items-center gap-3 mt-4 text-sm font-medium opacity-90">
+                  <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center border border-white/30 backdrop-blur-sm uppercase">
+                    {filteredPosts[0].author[0]}
+                  </div>
+                  <span>By {filteredPosts[0].author}</span>
+                  <span className="opacity-50">•</span>
+                  <span>{filteredPosts[0].readTime}</span>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+            
+            {/* Other Posts */}
+            {filteredPosts.slice(1).map((post) => (
+              <div key={post._id} className="group cursor-pointer overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                <div className="aspect-video overflow-hidden">
+                  <img 
+                    src={post.image || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop"}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    alt={post.title}
+                  />
+                </div>
+                <div className="p-6">
+                   <div className="flex items-center gap-2 mb-3">
+                     <span className="text-[#A16207] text-[10px] font-black uppercase tracking-widest">
+                       {post.category?.name}
+                     </span>
+                   </div>
+                   <h3 className="font-bold text-lg mb-2 line-clamp-2">{post.title}</h3>
+                   <p className="text-gray-500 text-sm line-clamp-2">{post.content}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 text-gray-400 font-medium">
+            No posts found matching your criteria.
+          </div>
+        )}
       </section>
     </div>
   );
