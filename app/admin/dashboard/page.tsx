@@ -13,7 +13,7 @@ export default function AdminDashboard() {
 
   const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
-  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "" });
+  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "", language: "en" });
   const [uploading, setUploading] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -52,13 +52,14 @@ export default function AdminDashboard() {
       body: JSON.stringify({
         ...newPost,
         author: session?.user?.name || "Admin",
-        readTime: "5 min read"
+        readTime: "5 min read",
+        language: newPost.language
       }),
     });
 
     if (res.ok) {
       alert("Post published successfully!");
-      setNewPost({ title: "", content: "", category: "", image: "" });
+      setNewPost({ title: "", content: "", category: "", image: "", language: "en" });
       setActiveTab("posts");
     }
   };
@@ -242,7 +243,20 @@ export default function AdminDashboard() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Language</label>
+                  <select 
+                    value={newPost.language}
+                    onChange={(e) => setNewPost({ ...newPost, language: e.target.value })}
+                    className="w-full p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20"
+                  >
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                  </select>
+                </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Category</label>
                   <select 
@@ -275,7 +289,7 @@ export default function AdminDashboard() {
                       ) : newPost.image ? (
                         <span className="text-green-600 font-medium">Image Uploaded!</span>
                       ) : (
-                        <span className="text-gray-400">Click to upload image</span>
+                        <span className="text-gray-400 text-sm">Click to upload</span>
                       )}
                     </label>
                   </div>

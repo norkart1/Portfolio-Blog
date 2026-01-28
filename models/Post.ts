@@ -8,6 +8,7 @@ export interface IPost {
   category: mongoose.Types.ObjectId;
   author: string;
   readTime: string;
+  language: string;
   createdAt: Date;
 }
 
@@ -19,6 +20,7 @@ const PostSchema = new Schema<IPost>(
     category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
     author: { type: String, required: true },
     readTime: { type: String, required: true },
+    language: { type: String, default: "en" },
   },
   { timestamps: true }
 );
