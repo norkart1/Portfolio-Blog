@@ -186,17 +186,17 @@ export default function AdminDashboard() {
                   <BookOpen className="h-6 w-6 text-[#A16207]" />
                 </div>
                 <div>
-                  <p className="text-2xl font-black text-gray-900 leading-none">12</p>
+                  <p className="text-2xl font-black text-gray-900 leading-none">{posts.length}</p>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Published</p>
                 </div>
               </div>
               <div className="bg-[#FDFDFD] p-6 rounded-[2rem] flex items-center gap-4 text-left">
                 <div className="p-3 bg-white rounded-2xl shadow-sm">
-                  <Clock className="h-6 w-6 text-[#A16207]" />
+                  <LayoutGrid className="h-6 w-6 text-[#A16207]" />
                 </div>
                 <div>
-                  <p className="text-2xl font-black text-gray-900 leading-none">4</p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pending</p>
+                  <p className="text-2xl font-black text-gray-900 leading-none">{categories.length}</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Categories</p>
                 </div>
               </div>
             </div>
