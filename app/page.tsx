@@ -19,25 +19,25 @@ export default function BlogHome() {
       </main>
 
       {/* Persistent Navigation */}
-      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-lg bg-white/80 backdrop-blur-md border border-gray-100 rounded-3xl shadow-2xl p-2 z-50">
-        <div className="flex items-center justify-around px-2 py-1">
+      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-lg bg-white border border-gray-100 rounded-[2.5rem] shadow-2xl p-2 z-50">
+        <div className="flex items-center justify-around">
           <button 
             onClick={() => setActiveTab("home")}
-            className={`p-4 rounded-2xl transition-all ${activeTab === "home" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
+            className={`flex items-center justify-center p-4 rounded-3xl transition-all ${activeTab === "home" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
             <Home className="h-6 w-6" />
           </button>
           
           <button 
             onClick={() => setActiveTab("blogs")}
-            className={`p-4 rounded-2xl transition-all ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg shadow-orange-900/20" : "text-gray-400 hover:text-gray-600"}`}
+            className={`flex items-center justify-center p-4 rounded-3xl transition-all ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg shadow-orange-900/20" : "text-gray-400 hover:text-gray-600"}`}
           >
-            <BookOpen className="h-6 w-6" />
+            <BookOpen className="h-7 w-7" />
           </button>
           
           <button 
             onClick={() => setActiveTab("socials")}
-            className={`p-4 rounded-2xl transition-all ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
+            className={`flex items-center justify-center p-4 rounded-3xl transition-all ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
             <User className="h-6 w-6" />
           </button>
