@@ -18,6 +18,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
     const slug = name.toLowerCase().trim().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+    
+    // Check for existing category to provide better error
+    const existing = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, "i") } });
+    if (existing) {
+      return NextResponse.json({ error: "Category already exists" }, { status: 400 });
+    }
+
     const category = await Category.create({ name, slug });
     return NextResponse.json(category);
   } catch (error: any) {
