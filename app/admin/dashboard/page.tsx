@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("posts");
 
+  const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
   const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "" });
   const [uploading, setUploading] = useState(false);
 
