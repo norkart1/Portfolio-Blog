@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Search, Globe, ChevronDown, Book, Shield, BookOpen, Clock, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function BlogHome() {
   const [activeFilter, setActiveFilter] = useState("ALL");
@@ -146,7 +147,7 @@ export default function BlogHome() {
         ) : filteredPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Featured Post */}
-            <div className="relative group cursor-pointer overflow-hidden rounded-[2.5rem] bg-gray-100 aspect-[4/3] shadow-sm md:col-span-2 lg:col-span-2">
+            <Link href={`/post/${filteredPosts[0]._id}`} className="relative group cursor-pointer overflow-hidden rounded-[2.5rem] bg-gray-100 aspect-[4/3] shadow-sm md:col-span-2 lg:col-span-2">
               <img
                 src={filteredPosts[0].image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
                 alt={filteredPosts[0].title}
@@ -168,11 +169,11 @@ export default function BlogHome() {
                   <span>{filteredPosts[0].readTime}</span>
                 </div>
               </div>
-            </div>
+            </Link>
             
             {/* Other Posts */}
             {filteredPosts.slice(1).map((post) => (
-              <div key={post._id} className="group cursor-pointer overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all">
+              <Link href={`/post/${post._id}`} key={post._id} className="group cursor-pointer overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all">
                 <div className="aspect-video overflow-hidden">
                   <img 
                     src={post.image || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop"}
@@ -189,7 +190,7 @@ export default function BlogHome() {
                    <h3 className="font-bold text-lg mb-2 line-clamp-2">{post.title}</h3>
                    <p className="text-gray-500 text-sm line-clamp-2">{post.content}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
