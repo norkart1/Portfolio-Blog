@@ -4,7 +4,51 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
-import { Bold as BoldIcon, Italic as ItalicIcon, List, ListOrdered } from 'lucide-react';
+import TextStyle from '@tiptap/extension-text-style';
+import { Bold as BoldIcon, Italic as ItalicIcon, List, ListOrdered, Type } from 'lucide-react';
+
+// Custom Font Size Extension because tiptap doesn't have a default one in starter kit
+import { Extension } from '@tiptap/core'
+
+const FontSize = Extension.create({
+  name: 'fontSize',
+  addOptions() {
+    return {
+      types: ['textStyle'],
+    }
+  },
+  addAttributes() {
+    return {
+      fontSize: {
+        default: null,
+        parseHTML: (element: HTMLElement) => element.style.fontSize,
+        renderHTML: (attributes: any) => {
+          if (!attributes.fontSize) {
+            return {}
+          }
+          return {
+            style: `font-size: ${attributes.fontSize}`,
+          }
+        },
+      },
+    }
+  },
+  addCommands() {
+    return {
+      setFontSize: (fontSize: string) => ({ chain }: { chain: any }) => {
+        return chain()
+          .setMark('textStyle', { fontSize })
+          .run()
+      },
+      unsetFontSize: () => ({ chain }: { chain: any }) => {
+        return chain()
+          .setMark('textStyle', { fontSize: null })
+          .removeEmptyTextStyle()
+          .run()
+      },
+    } as any
+  },
+})
 
 interface RichTextEditorProps {
   content: string;
@@ -19,6 +63,8 @@ const RichTextEditor = ({ content, onChange, textAlign, textColor }: RichTextEdi
       StarterKit,
       Bold,
       Italic,
+      TextStyle,
+      FontSize,
     ],
     content: content,
     immediatelyRender: false,
@@ -59,6 +105,19 @@ const RichTextEditor = ({ content, onChange, textAlign, textColor }: RichTextEdi
         >
           <ListOrdered className="w-4 h-4" />
         </button>
+        <div className="w-px h-4 bg-gray-200 mx-1" />
+        <div className="flex items-center gap-1 bg-gray-50 rounded-lg px-2">
+          <Type className="w-4 h-4 text-gray-400" />
+          <select 
+            onChange={(e) => editor.chain().focus().setFontSize(e.target.value).run()}
+            className="bg-transparent text-sm text-gray-600 outline-none py-1 cursor-pointer"
+            value={editor.getAttributes('textStyle').fontSize || '16px'}
+          >
+            {[12, 14, 16, 18, 20, 24, 30, 36, 48].map(size => (
+              <option key={size} value={`${size}px`}>{size}px</option>
+            ))}
+          </select>
+        </div>
       </div>
       <EditorContent 
         editor={editor} 
