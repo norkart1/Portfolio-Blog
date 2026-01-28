@@ -10,11 +10,31 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("posts");
 
+  const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
+  const [newCategory, setNewCategory] = useState("");
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/admin/login");
     }
+    if (status === "authenticated") {
+      fetch("/api/categories").then(res => res.json()).then(data => setCategories(Array.isArray(data) ? data : []));
+    }
   }, [status, router]);
+
+  const handleAddCategory = async () => {
+    if (!newCategory) return;
+    const res = await fetch("/api/categories", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: newCategory }),
+    });
+    if (res.ok) {
+      const added = await res.json();
+      setCategories([...categories, added]);
+      setNewCategory("");
+    }
+  };
 
   if (status === "loading") {
     return (
@@ -221,7 +241,46 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Status tab logic removed */}
+        {activeTab === "category" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+              <LayoutGrid className="h-4 w-4" />
+              Manage Categories
+            </div>
+            
+            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 mb-8">
+              <div className="flex gap-4">
+                <input 
+                  type="text" 
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  placeholder="New Category Name (e.g. Novels)" 
+                  className="flex-1 p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20" 
+                />
+                <button 
+                  onClick={handleAddCategory}
+                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 transition-all"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {categories.map((cat) => (
+                <div key={cat._id} className="bg-white p-6 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
+                  <span className="font-bold text-gray-900">{cat.name}</span>
+                  <button className="text-gray-400 hover:text-red-500 transition-colors">
+                    <Trash2 className="h-5 w-5" />
+                  </button>
+                </div>
+              ))}
+              {categories.length === 0 && (
+                <p className="col-span-full text-gray-400 py-10">No categories found. Add one above!</p>
+              )}
+            </div>
+          </div>
+        )}
         
         {activeTab === "profile" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
