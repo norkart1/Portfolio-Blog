@@ -23,6 +23,18 @@ export default function AdminDashboard() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Check image dimensions
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    await new Promise((resolve) => {
+      img.onload = resolve;
+    });
+
+    if (img.width !== 1080 || img.height !== 1080) {
+      alert("Please upload an image with 1080x1080 dimensions only.");
+      return;
+    }
+
     setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
