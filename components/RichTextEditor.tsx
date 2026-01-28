@@ -21,6 +21,7 @@ const RichTextEditor = ({ content, onChange, textAlign, textColor }: RichTextEdi
       Italic,
     ],
     content: content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
