@@ -107,58 +107,61 @@ const Blogs = () => {
         ) : filteredPosts.length > 0 ? (
           filteredPosts.map((post: any) => (
             <Link key={post._id} href={`/blog/${post._id}`} className="block group">
-              <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
+              <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
                 <div className="aspect-[4/3] overflow-hidden">
-                <img 
-                  src={post.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              
-              <div className="p-8">
-                {/* Meta Info */}
-                <div className={`flex items-center gap-2 mb-4 text-[10px] font-bold tracking-widest uppercase ${
-                  post.language === 'ar' ? 'font-rubik' : 'font-anek'
-                }`}>
-                  <span className="text-[#C24E00]">
-                    {post.language === "en" ? "ENGLISH" : post.language?.toUpperCase() || "ENGLISH"}
-                  </span>
-                  <span className="text-gray-300">•</span>
-                  <span className="text-gray-400">
-                    {formatDate(post.createdAt)}
-                  </span>
+                  <img 
+                    src={post.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
                 
-                {/* Title */}
-                <h3 className={`font-bold text-3xl mb-4 text-gray-900 leading-tight ${
-                  post.language === 'ar' ? 'font-rubik' : 'font-anek'
-                }`}>
-                  {post.title}
-                </h3>
-                
-                {/* Content Preview */}
-                <div 
-                  className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 prose prose-sm max-w-none ${
-                    post.language === 'ar' ? 'font-rubik text-right rtl' : 'font-anek'
-                  }`}
-                  style={{ direction: post.language === 'ar' ? 'rtl' : 'ltr' }}
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                />
-                
-                {/* Divider */}
-                <div className="h-px bg-gray-50 w-full mb-6"></div>
-                
-                {/* Footer */}
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <p className="font-bold text-sm text-gray-900 leading-tight">{post.author}</p>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
+                <div className="p-8 flex-1 flex flex-col">
+                  {/* Meta Info */}
+                  <div className={`flex items-center gap-2 mb-4 text-[10px] font-bold tracking-widest uppercase ${
+                    post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                  }`}>
+                    <span className="text-[#C24E00]">
+                      {post.language === "en" ? "ENGLISH" : post.language?.toUpperCase() || "ENGLISH"}
+                    </span>
+                    <span className="text-gray-300">•</span>
+                    <span className="text-gray-400">
+                      {formatDate(post.createdAt)}
+                    </span>
                   </div>
                   
-                  <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm text-gray-400">
-                    <Heart className="h-4 w-4" />
-                    <span className="text-xs font-bold">{post.likes || 0}</span>
+                  {/* Title */}
+                  <h3 className={`font-bold text-3xl mb-4 text-gray-900 leading-tight group-hover:text-[#C24E00] transition-colors ${
+                    post.language === 'ar' ? 'font-rubik text-right' : 'font-anek'
+                  }`}>
+                    {post.title}
+                  </h3>
+                  
+                  {/* Content Preview */}
+                  <div 
+                    className={`text-gray-500 text-base leading-relaxed line-clamp-3 mb-8 prose prose-sm max-w-none ${
+                      post.language === 'ar' ? 'font-rubik text-right rtl' : 'font-anek'
+                    }`}
+                    style={{ direction: post.language === 'ar' ? 'rtl' : 'ltr' }}
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                  
+                  <div className="mt-auto">
+                    {/* Divider */}
+                    <div className="h-px bg-gray-50 w-full mb-6"></div>
+                    
+                    {/* Footer */}
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <p className="font-bold text-sm text-gray-900 leading-tight">{post.author}</p>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm text-gray-400">
+                        <Heart className="h-4 w-4" />
+                        <span className="text-xs font-bold">{post.likes || 0}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
