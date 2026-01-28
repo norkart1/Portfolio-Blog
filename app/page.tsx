@@ -5,6 +5,8 @@ import Portfolio from "@/components/Portfolio";
 import Blogs from "@/components/Blogs";
 import Socials from "@/components/Socials";
 
+import { Home, BookOpen, Share2 } from "lucide-react";
+
 export default function BlogHome() {
   const [activeTab, setActiveTab] = useState("home");
 
@@ -21,23 +23,23 @@ export default function BlogHome() {
         <div className="flex items-center justify-around px-2 py-1">
           <button 
             onClick={() => setActiveTab("home")}
-            className={`p-3 rounded-2xl transition-all ${activeTab === "home" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
+            className={`p-4 rounded-2xl transition-all ${activeTab === "home" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
-            <span className="font-bold text-sm px-2">Home</span>
+            <Home className="h-6 w-6" />
           </button>
           
           <button 
             onClick={() => setActiveTab("blogs")}
-            className={`p-3 rounded-2xl transition-all ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
+            className={`p-4 rounded-2xl transition-all ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
-            <span className="font-bold text-sm px-2">Blogs</span>
+            <BookOpen className="h-6 w-6" />
           </button>
           
           <button 
             onClick={() => setActiveTab("socials")}
-            className={`p-3 rounded-2xl transition-all ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
+            className={`p-4 rounded-2xl transition-all ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
-            <span className="font-bold text-sm px-2">Socials</span>
+            <Share2 className="h-6 w-6" />
           </button>
         </div>
       </nav>
