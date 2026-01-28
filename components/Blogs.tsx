@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Search, Languages, Loader2, BookOpen, Heart } from "lucide-react";
+import Link from 'next/link';
 
 const Blogs = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -105,8 +106,9 @@ const Blogs = () => {
           </div>
         ) : filteredPosts.length > 0 ? (
           filteredPosts.map((post: any) => (
-            <div key={post._id} className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-              <div className="aspect-[4/3] overflow-hidden">
+            <Link key={post._id} href={`/blog/${post._id}`} className="block group">
+              <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
+                <div className="aspect-[4/3] overflow-hidden">
                 <img 
                   src={post.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
                   alt={post.title}
@@ -160,7 +162,7 @@ const Blogs = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <p className="text-gray-500 italic text-center py-20">No blog posts found matching your criteria.</p>
