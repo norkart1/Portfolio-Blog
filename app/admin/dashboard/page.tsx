@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2, Search, Globe, ChevronDown, LayoutGrid } from "lucide-react";
 
+import RichTextEditor from "@/components/RichTextEditor";
+
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -342,14 +344,12 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </div>
-                <textarea 
-                  placeholder="Write your story here..." 
-                  rows={12} 
-                  value={newPost.content}
-                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                  style={{ textAlign: newPost.textAlign as any, color: newPost.textColor }}
-                  className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg shadow-inner leading-normal"
-                ></textarea>
+                <RichTextEditor 
+                  content={newPost.content}
+                  onChange={(content) => setNewPost({ ...newPost, content })}
+                  textAlign={newPost.textAlign}
+                  textColor={newPost.textColor}
+                />
               </div>
 
               <button 

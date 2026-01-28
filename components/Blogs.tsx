@@ -136,11 +136,12 @@ const Blogs = () => {
                 </h3>
                 
                 {/* Content Preview */}
-                <p className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 ${
-                  post.language === 'ar' ? 'font-rubik' : 'font-anek'
-                }`}>
-                  {post.content}
-                </p>
+                <div 
+                  className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 ${
+                    post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                  }`}
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
                 
                 {/* Divider */}
                 <div className="h-px bg-gray-50 w-full mb-6"></div>
