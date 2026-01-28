@@ -137,8 +137,8 @@ const Blogs = () => {
                 
                 {/* Content Preview */}
                 <div 
-                  className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 ${
-                    post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                  className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 prose prose-sm max-w-none ${
+                    post.language === 'ar' ? 'font-rubik text-right rtl' : 'font-anek'
                   }`}
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
