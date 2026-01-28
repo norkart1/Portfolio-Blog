@@ -9,8 +9,11 @@ const Blogs = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeLanguage, setActiveLanguage] = useState("ALL");
+  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
+    // Fetch posts
     fetch('/api/posts')
       .then(res => res.json())
       .then(data => {
@@ -21,6 +24,14 @@ const Blogs = () => {
         console.error('Error fetching posts:', err);
         setLoading(false);
       });
+
+    // Fetch categories
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => {
+        setCategories(Array.isArray(data) ? data : []);
+      })
+      .catch(err => console.error('Error fetching categories:', err));
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -36,8 +47,16 @@ const Blogs = () => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          post.content.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter = activeFilter === "ALL" || post.category?.name?.toUpperCase() === activeFilter;
-    return matchesSearch && matchesFilter;
+    const matchesLanguage = activeLanguage === "ALL" || post.language?.toUpperCase() === activeLanguage;
+    return matchesSearch && matchesFilter && matchesLanguage;
   });
+
+  const languages = [
+    { code: "ALL", name: "All Languages" },
+    { code: "EN", name: "English" },
+    { code: "AR", name: "Arabic" },
+    { code: "ML", name: "Malayalam" }
+  ];
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
@@ -64,10 +83,19 @@ const Blogs = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm">
-              <Languages className="h-4 w-4 text-[#C24E00]" />
-              All Languages
-            </button>
+            <div className="relative">
+              <select
+                value={activeLanguage}
+                onChange={(e) => setActiveLanguage(e.target.value)}
+                className="appearance-none flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm pr-10 outline-none bg-white cursor-pointer"
+              >
+                {languages.map(lang => (
+                  <option key={lang.code} value={lang.code}>{lang.name}</option>
+                ))}
+              </select>
+              <Languages className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#C24E00] pointer-events-none" />
+            </div>
+            
             <div className="flex-1 overflow-x-auto no-scrollbar flex items-center gap-2">
               <button
                 onClick={() => setActiveFilter("ALL")}
@@ -77,22 +105,17 @@ const Blogs = () => {
               >
                 ALL
               </button>
-              <button
-                onClick={() => setActiveFilter("ARTICLE")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap ${
-                  activeFilter === "ARTICLE" ? "bg-white border border-gray-200 shadow-sm" : "text-gray-500"
-                }`}
-              >
-                ARTICLE
-              </button>
-              <button
-                onClick={() => setActiveFilter("POEM")}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap ${
-                  activeFilter === "POEM" ? "bg-white border border-gray-200 shadow-sm" : "text-gray-500"
-                }`}
-              >
-                POEM
-              </button>
+              {categories.map(cat => (
+                <button
+                  key={cat._id}
+                  onClick={() => setActiveFilter(cat.name.toUpperCase())}
+                  className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap ${
+                    activeFilter === cat.name.toUpperCase() ? "bg-white border border-gray-200 shadow-sm" : "text-gray-500"
+                  }`}
+                >
+                  {cat.name.toUpperCase()}
+                </button>
+              ))}
             </div>
           </div>
         </div>
