@@ -11,7 +11,32 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("posts");
 
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
-  const [newCategory, setNewCategory] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState("");
+
+  const handleUpdateCategory = async (id: string) => {
+    if (!editingName) return;
+    const res = await fetch(`/api/categories/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: editingName }),
+    });
+    if (res.ok) {
+      const updated = await res.json();
+      setCategories(categories.map(c => c._id === id ? updated : c));
+      setEditingId(null);
+    }
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this category?")) return;
+    const res = await fetch(`/api/categories/${id}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      setCategories(categories.filter(c => c._id !== id));
+    }
+  };
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -248,18 +273,18 @@ export default function AdminDashboard() {
               Manage Categories
             </div>
             
-            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 mb-8">
-              <div className="flex gap-4">
+            <div className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 mb-8 overflow-hidden">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <input 
                   type="text" 
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
                   placeholder="New Category Name (e.g. Novels)" 
-                  className="flex-1 p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20" 
+                  className="flex-1 p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 w-full" 
                 />
                 <button 
                   onClick={handleAddCategory}
-                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 transition-all"
+                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 transition-all w-full sm:w-auto"
                 >
                   Add
                 </button>
@@ -268,11 +293,41 @@ export default function AdminDashboard() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {categories.map((cat) => (
-                <div key={cat._id} className="bg-white p-6 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm">
-                  <span className="font-bold text-gray-900">{cat.name}</span>
-                  <button className="text-gray-400 hover:text-red-500 transition-colors">
-                    <Trash2 className="h-5 w-5" />
-                  </button>
+                <div key={cat._id} className="bg-white p-5 rounded-2xl border border-gray-100 flex flex-col sm:flex-row justify-between items-center shadow-sm gap-3">
+                  {editingId === cat._id ? (
+                    <input 
+                      type="text"
+                      value={editingName}
+                      onChange={(e) => setEditingName(e.target.value)}
+                      className="flex-1 p-2 bg-gray-50 rounded-lg outline-none focus:ring-1 focus:ring-orange-500 w-full"
+                    />
+                  ) : (
+                    <span className="font-bold text-gray-900 truncate max-w-[200px]">{cat.name}</span>
+                  )}
+                  
+                  <div className="flex items-center gap-2">
+                    {editingId === cat._id ? (
+                      <button 
+                        onClick={() => handleUpdateCategory(cat._id)}
+                        className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={() => { setEditingId(cat._id); setEditingName(cat.name); }}
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      >
+                        <PenTool className="h-5 w-5" />
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => handleDeleteCategory(cat._id)}
+                      className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
               ))}
               {categories.length === 0 && (
