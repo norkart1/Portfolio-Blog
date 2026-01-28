@@ -75,6 +75,14 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteCategory = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this category?")) return;
+    const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setCategories(categories.filter(c => c._id !== id));
+    }
+  };
+
   const handleDeletePost = async (id: string) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
     const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
