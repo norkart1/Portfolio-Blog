@@ -20,6 +20,7 @@ Preferred communication style: Simple, everyday language.
 - **API Routes**: Next.js App Router API routes located in `app/api/`
 - **Authentication**: NextAuth.js v4 with credentials provider
 - **Session Management**: JWT-based sessions
+- **Image Management**: Cloudinary for image storage and delivery
 
 ### Authentication Flow
 - Admin login page at `/admin/login`
