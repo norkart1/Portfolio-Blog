@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, BookOpen, Users, Image as ImageIcon, Mail, LogOut, Loader2 } from "lucide-react";
+import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users } from "lucide-react";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -28,10 +28,10 @@ export default function AdminDashboard() {
 
   const navItems = [
     { id: "home", icon: Home, label: "Home" },
-    { id: "posts", icon: BookOpen, label: "Posts" },
-    { id: "users", icon: Users, label: "Users" },
-    { id: "media", icon: ImageIcon, label: "Media" },
-    { id: "messages", icon: Mail, label: "Messages" },
+    { id: "add", icon: PlusCircle, label: "Add Post" },
+    { id: "posts", icon: List, label: "My Posts" },
+    { id: "status", icon: Activity, label: "Status" },
+    { id: "profile", icon: User, label: "Profile" },
   ];
 
   return (
@@ -55,27 +55,137 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main className="max-w-4xl mx-auto p-6">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
-          <p className="text-gray-500">Welcome back to your administration portal.</p>
-        </div>
+        {activeTab === "home" && (
+          <>
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
+              <p className="text-gray-500">Welcome back, {session.user?.name}. Here's what's happening.</p>
+            </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 className="text-gray-400 text-sm font-medium mb-1">Total Posts</h3>
-            <p className="text-3xl font-bold text-gray-900">12</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start justify-between">
+                <div>
+                  <h3 className="text-gray-400 text-sm font-medium mb-1">Total Posts</h3>
+                  <p className="text-3xl font-bold text-gray-900">24</p>
+                </div>
+                <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
+                  <BookOpen className="h-6 w-6" />
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start justify-between">
+                <div>
+                  <h3 className="text-gray-400 text-sm font-medium mb-1">Total Views</h3>
+                  <p className="text-3xl font-bold text-gray-900">8.5k</p>
+                </div>
+                <div className="p-3 bg-green-50 rounded-xl text-green-600">
+                  <Eye className="h-6 w-6" />
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start justify-between">
+                <div>
+                  <h3 className="text-gray-400 text-sm font-medium mb-1">Active Users</h3>
+                  <p className="text-3xl font-bold text-gray-900">12</p>
+                </div>
+                <div className="p-3 bg-purple-50 rounded-xl text-purple-600">
+                  <Users className="h-6 w-6" />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Stats</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                  <span className="text-gray-600">Drafts</span>
+                  <span className="font-bold text-gray-900">4</span>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                  <span className="text-gray-600">Scheduled</span>
+                  <span className="font-bold text-gray-900">2</span>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {activeTab === "add" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Post</h2>
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+              <input type="text" placeholder="Post Title" className="w-full p-4 bg-gray-50 border-none rounded-xl outline-none focus:ring-2 focus:ring-orange-500/20" />
+              <textarea placeholder="Write your content here..." rows={10} className="w-full p-4 bg-gray-50 border-none rounded-xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none"></textarea>
+              <button className="w-full py-4 bg-[#C24E00] text-white font-bold rounded-xl shadow-lg shadow-orange-900/10 hover:opacity-90 transition-opacity">
+                Publish Post
+              </button>
+            </div>
           </div>
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 className="text-gray-400 text-sm font-medium mb-1">Total Views</h3>
-            <p className="text-3xl font-bold text-gray-900">1,240</p>
+        )}
+
+        {activeTab === "posts" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Posts</h2>
+            <div className="space-y-4">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                  <div>
+                    <h4 className="font-bold text-gray-900">How to build a Next.js app {i}</h4>
+                    <p className="text-xs text-gray-400 mt-1">Published on Jan 28, 2026 • 120 views</p>
+                  </div>
+                  <button className="text-sm text-blue-600 font-medium px-4 py-2 hover:bg-blue-50 rounded-lg transition-colors">Edit</button>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h3 className="text-gray-400 text-sm font-medium mb-1">Subscribers</h3>
-            <p className="text-3xl font-bold text-gray-900">45</p>
+        )}
+
+        {activeTab === "status" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">System Status</h2>
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 font-medium">Database Connection</span>
+                <span className="flex items-center text-green-600 font-bold gap-2">
+                  <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                  Connected
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 font-medium">API Server</span>
+                <span className="flex items-center text-green-600 font-bold gap-2">
+                  <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                  Online
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 font-medium">Uptime</span>
+                <span className="text-gray-900 font-bold">99.9%</span>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === "profile" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Admin Profile</h2>
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center">
+              <div className="h-24 w-24 bg-[#C24E00] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-bold mb-4 shadow-xl shadow-orange-900/20">
+                {session.user?.name?.[0]}
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">{session.user?.name}</h3>
+              <p className="text-gray-500 mb-6">{session.user?.email}</p>
+              <div className="pt-6 border-t border-gray-100 space-y-3">
+                <button className="w-full py-3 bg-gray-50 text-gray-700 font-bold rounded-xl hover:bg-gray-100 transition-colors">
+                  Edit Profile
+                </button>
+                <button onClick={() => signOut()} className="w-full py-3 bg-red-50 text-red-600 font-bold rounded-xl hover:bg-red-100 transition-colors">
+                  Logout Session
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Floating Footer Menu */}
