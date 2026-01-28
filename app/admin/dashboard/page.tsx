@@ -90,45 +90,55 @@ export default function AdminDashboard() {
               <List className="h-4 w-4" />
               My Blog Posts
             </div>
-            <div className="max-w-4xl mx-auto space-y-6 text-left pb-12">
+            <div className="max-w-4xl mx-auto space-y-8 text-left pb-12 px-2">
               {[1, 2, 3].map(i => (
-                <div key={i} className="group cursor-pointer">
-                  {/* Thumbnail / Image Placeholder */}
-                  <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] bg-gray-100 mb-4 shadow-sm">
+                <div key={i} className="group flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-all">
+                  {/* Blog Thumbnail */}
+                  <div className="relative w-full sm:w-48 h-48 shrink-0 overflow-hidden rounded-[2rem] bg-gray-50">
                     <img 
                       src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop`} 
                       alt="Post thumbnail"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute bottom-4 right-4 bg-black/80 text-white text-[10px] font-bold px-2 py-1 rounded">
-                      12:45
-                    </div>
                   </div>
                   
-                  {/* Post Info */}
-                  <div className="flex gap-4 px-2">
-                    <div className="h-10 w-10 shrink-0 rounded-full bg-[#C24E00] flex items-center justify-center text-white font-bold text-sm">
-                      A
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-bold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+                  {/* Blog Content Info */}
+                  <div className="flex-1 flex flex-col justify-between py-1">
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="bg-[#FFF9F2] text-[#A16207] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                          Article
+                        </span>
+                        <span className="text-gray-300 text-xs">•</span>
+                        <span className="text-gray-400 text-xs font-medium">5 min read</span>
+                      </div>
+                      <h4 className="text-xl font-bold text-gray-900 leading-tight group-hover:text-[#C24E00] transition-colors line-clamp-2 mb-3">
                         How to build a professional Next.js application from scratch - Part {i}
                       </h4>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
-                        <span>Admin</span>
-                        <span className="h-1 w-1 bg-gray-300 rounded-full" />
-                        <span>1.2K views</span>
-                        <span className="h-1 w-1 bg-gray-300 rounded-full" />
-                        <span>2 hours ago</span>
-                      </div>
+                      <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">
+                        Learn the best practices for building scalable React applications using the latest Next.js features and modern web development tools.
+                      </p>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <button className="h-10 w-10 flex items-center justify-center hover:bg-blue-50 text-blue-600 rounded-full transition-colors self-start" title="Edit">
-                        <PenTool className="h-5 w-5" />
-                      </button>
-                      <button className="h-10 w-10 flex items-center justify-center hover:bg-red-50 text-red-600 rounded-full transition-colors self-start" title="Delete">
-                        <Trash2 className="h-5 w-5" />
-                      </button>
+                    
+                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-50">
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-xl bg-[#C24E00] flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-orange-900/20">
+                          A
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-gray-900 leading-none">Admin</p>
+                          <p className="text-[10px] text-gray-400 mt-1">Jan 28, 2026</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <button className="h-10 w-10 flex items-center justify-center bg-gray-50 text-blue-600 rounded-2xl hover:bg-blue-50 transition-colors" title="Edit">
+                          <PenTool className="h-5 w-5" />
+                        </button>
+                        <button className="h-10 w-10 flex items-center justify-center bg-gray-50 text-red-600 rounded-2xl hover:bg-red-50 transition-colors" title="Delete">
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
