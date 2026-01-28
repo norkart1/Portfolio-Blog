@@ -35,7 +35,7 @@ const Blogs = () => {
       <section className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FFF9F2] border border-[#E5D4C0] rounded-full text-[#C24E00] font-bold text-xs mb-6 uppercase tracking-wider shadow-sm">
           <BookOpen className="h-4 w-4" />
-          THE ARCHIVE
+          BLOGS
         </div>
         <p className="text-base text-gray-600 leading-relaxed">
           A curated collection of scholarly articles, poetry, and community insights.
