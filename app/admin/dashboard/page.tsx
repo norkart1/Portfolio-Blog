@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users } from "lucide-react";
+import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock } from "lucide-react";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -39,38 +39,33 @@ export default function AdminDashboard() {
       {/* Main Content Area */}
       <main className="max-w-2xl mx-auto p-6">
         {activeTab === "home" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Dashboard Overview</h2>
-              <p className="text-gray-500 mt-2">Welcome back, {session.user?.name}. Here's what's happening.</p>
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+              <Shield className="h-4 w-4" />
+              Organizational Structure
             </div>
+            <h1 className="text-lg md:text-xl text-[#666666] max-w-2xl mx-auto leading-relaxed font-medium mb-12">
+              Meet the dedicated scholars and board members working tirelessly to uphold our mission of excellence.
+            </h1>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start justify-between">
-                <div>
-                  <h3 className="text-gray-400 text-sm font-medium mb-1">Total Posts</h3>
-                  <p className="text-3xl font-bold text-gray-900">24</p>
+            {/* Stats Section */}
+            <div className="max-w-xl mx-auto grid grid-cols-2 gap-4 bg-white p-4 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 mb-16">
+              <div className="bg-[#FDFDFD] p-6 rounded-[2rem] flex items-center gap-4 text-left">
+                <div className="p-3 bg-white rounded-2xl shadow-sm">
+                  <BookOpen className="h-6 w-6 text-[#A16207]" />
                 </div>
-                <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
-                  <BookOpen className="h-6 w-6" />
+                <div>
+                  <p className="text-2xl font-black text-gray-900 leading-none">12</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Published</p>
                 </div>
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start justify-between">
+              <div className="bg-[#FDFDFD] p-6 rounded-[2rem] flex items-center gap-4 text-left">
+                <div className="p-3 bg-white rounded-2xl shadow-sm">
+                  <Clock className="h-6 w-6 text-[#A16207]" />
+                </div>
                 <div>
-                  <h3 className="text-gray-400 text-sm font-medium mb-1">Total Views</h3>
-                  <p className="text-3xl font-bold text-gray-900">8.5k</p>
-                </div>
-                <div className="p-3 bg-green-50 rounded-xl text-green-600">
-                  <Eye className="h-6 w-6" />
-                </div>
-              </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start justify-between">
-                <div>
-                  <h3 className="text-gray-400 text-sm font-medium mb-1">Active Users</h3>
-                  <p className="text-3xl font-bold text-gray-900">12</p>
-                </div>
-                <div className="p-3 bg-purple-50 rounded-xl text-purple-600">
-                  <Users className="h-6 w-6" />
+                  <p className="text-2xl font-black text-gray-900 leading-none">4</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pending</p>
                 </div>
               </div>
             </div>
