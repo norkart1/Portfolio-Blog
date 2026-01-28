@@ -319,7 +319,7 @@ export default function AdminDashboard() {
                         type="color" 
                         value={newPost.textColor}
                         onChange={(e) => setNewPost({ ...newPost, textColor: e.target.value })}
-                        className="w-8 h-8 rounded-lg cursor-pointer border-none bg-transparent"
+                        className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent p-0 overflow-hidden"
                         title="Text Color"
                       />
                     </div>

@@ -62,7 +62,9 @@ const RichTextEditor = ({ content, onChange, textAlign, textColor }: RichTextEdi
       </div>
       <EditorContent 
         editor={editor} 
-        className="prose prose-sm max-w-none p-5 min-h-[300px] focus:outline-none"
+        className={`prose prose-sm max-w-none p-5 min-h-[300px] focus:outline-none ${
+          textAlign === 'right' ? 'rtl font-rubik' : 'font-anek'
+        }`}
         style={{ textAlign: textAlign as any, color: textColor }}
       />
     </div>
