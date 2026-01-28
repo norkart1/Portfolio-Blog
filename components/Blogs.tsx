@@ -140,6 +140,7 @@ const Blogs = () => {
                   className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 prose prose-sm max-w-none ${
                     post.language === 'ar' ? 'font-rubik text-right rtl' : 'font-anek'
                   }`}
+                  style={{ direction: post.language === 'ar' ? 'rtl' : 'ltr' }}
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
                 
