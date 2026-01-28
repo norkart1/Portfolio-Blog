@@ -104,11 +104,6 @@ const Blogs = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute top-4 left-4">
-                <div className="bg-[#FFB800] text-black font-bold text-[10px] tracking-wider uppercase px-4 py-2 rounded-lg shadow-sm">
-                  FEATURED {post.category?.name?.toUpperCase() || 'ARTICLE'}
-                </div>
-              </div>
               <div className="p-5">
                 <h3 className="font-bold text-2xl mb-2 text-gray-900 leading-tight">
                   {post.title}
