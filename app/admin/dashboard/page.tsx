@@ -10,7 +10,52 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("posts");
 
-  const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
+  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "" });
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.secure_url) {
+        setNewPost({ ...newPost, image: data.secure_url });
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!newPost.title || !newPost.content || !newPost.category || !newPost.image) {
+      alert("Please fill all fields and upload an image");
+      return;
+    }
+
+    const res = await fetch("/api/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...newPost,
+        author: session?.user?.name || "Admin",
+        readTime: "5 min read"
+      }),
+    });
+
+    if (res.ok) {
+      alert("Post published successfully!");
+      setNewPost({ title: "", content: "", category: "", image: "" });
+      setActiveTab("posts");
+    }
+  };
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
@@ -154,11 +199,75 @@ export default function AdminDashboard() {
               <PlusCircle className="h-4 w-4" />
               Create New Post
             </div>
-            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6 text-left">
-              <input type="text" placeholder="Post Title" className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 text-lg" />
-              <textarea placeholder="Write your content here..." rows={12} className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg"></textarea>
-              <button className="w-full py-5 bg-[#C24E00] text-white font-bold rounded-2xl shadow-xl shadow-orange-900/10 hover:opacity-95 transition-all text-lg">
-                Publish Post
+            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6 text-left max-w-3xl mx-auto">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Post Title</label>
+                <input 
+                  type="text" 
+                  placeholder="Enter a catchy title" 
+                  value={newPost.title}
+                  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                  className="w-full p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 text-lg" 
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Category</label>
+                  <select 
+                    value={newPost.category}
+                    onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
+                    className="w-full p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map(cat => (
+                      <option key={cat._id} value={cat._id}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Featured Image</label>
+                  <div className="relative">
+                    <input 
+                      type="file" 
+                      onChange={handleImageUpload}
+                      className="hidden" 
+                      id="image-upload"
+                      accept="image/*"
+                    />
+                    <label 
+                      htmlFor="image-upload"
+                      className="flex items-center justify-center w-full p-4 bg-[#F8F9FA] border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-orange-500/50 transition-colors"
+                    >
+                      {uploading ? (
+                        <Loader2 className="animate-spin h-5 w-5 text-orange-500" />
+                      ) : newPost.image ? (
+                        <span className="text-green-600 font-medium">Image Uploaded!</span>
+                      ) : (
+                        <span className="text-gray-400">Click to upload image</span>
+                      )}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Content</label>
+                <textarea 
+                  placeholder="Write your story here..." 
+                  rows={12} 
+                  value={newPost.content}
+                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                  className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg"
+                ></textarea>
+              </div>
+
+              <button 
+                onClick={handlePublish}
+                disabled={uploading}
+                className="w-full py-5 bg-[#C24E00] text-white font-bold rounded-2xl shadow-xl shadow-orange-900/10 hover:opacity-95 transition-all text-lg disabled:opacity-50"
+              >
+                {uploading ? "Uploading Image..." : "Publish Post"}
               </button>
             </div>
           </div>
