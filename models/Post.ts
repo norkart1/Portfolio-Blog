@@ -10,6 +10,7 @@ export interface IPost {
   readTime: string;
   language: string;
   textAlign: string;
+  textColor: string;
   createdAt: Date;
 }
 
@@ -23,6 +24,7 @@ const PostSchema = new Schema<IPost>(
     readTime: { type: String, required: true },
     language: { type: String, default: "en" },
     textAlign: { type: String, default: "left" },
+    textColor: { type: String, default: "#333333" },
   },
   { timestamps: true }
 );
