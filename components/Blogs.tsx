@@ -116,7 +116,9 @@ const Blogs = () => {
               
               <div className="p-8">
                 {/* Meta Info */}
-                <div className="flex items-center gap-2 mb-4 text-[10px] font-bold tracking-widest uppercase">
+                <div className={`flex items-center gap-2 mb-4 text-[10px] font-bold tracking-widest uppercase ${
+                  post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                }`}>
                   <span className="text-[#C24E00]">
                     {post.language === "en" ? "ENGLISH" : post.language?.toUpperCase() || "ENGLISH"}
                   </span>
@@ -127,12 +129,16 @@ const Blogs = () => {
                 </div>
                 
                 {/* Title */}
-                <h3 className="font-bold text-3xl mb-4 text-gray-900 leading-tight">
+                <h3 className={`font-bold text-3xl mb-4 text-gray-900 leading-tight ${
+                  post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                }`}>
                   {post.title}
                 </h3>
                 
                 {/* Content Preview */}
-                <p className="text-gray-500 text-base leading-relaxed line-clamp-4 mb-8">
+                <p className={`text-gray-500 text-base leading-relaxed line-clamp-4 mb-8 ${
+                  post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                }`}>
                   {post.content}
                 </p>
                 

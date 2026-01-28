@@ -10,6 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-rubik: var(--font-rubik);
+  --font-anek: var(--font-anek-malayalam), var(--font-anek-latin), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
