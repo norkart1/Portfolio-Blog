@@ -5,7 +5,7 @@ import Portfolio from "@/components/Portfolio";
 import Blogs from "@/components/Blogs";
 import Socials from "@/components/Socials";
 
-import { Home, BookOpen, User, Image, Mail } from "lucide-react";
+import { Home, BookOpen, User } from "lucide-react";
 
 export default function BlogHome() {
   const [activeTab, setActiveTab] = useState("blogs");
@@ -40,18 +40,6 @@ export default function BlogHome() {
             className={`p-4 rounded-2xl transition-all ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
             <User className="h-6 w-6" />
-          </button>
-
-          <button 
-            className="p-4 rounded-2xl transition-all text-gray-400 hover:text-gray-600"
-          >
-            <Image className="h-6 w-6" />
-          </button>
-
-          <button 
-            className="p-4 rounded-2xl transition-all text-gray-400 hover:text-gray-600"
-          >
-            <Mail className="h-6 w-6" />
           </button>
         </div>
       </nav>
