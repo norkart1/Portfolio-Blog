@@ -105,15 +105,22 @@ export default function AdminDashboard() {
 
   const handleAddCategory = async () => {
     if (!newCategory) return;
-    const res = await fetch("/api/categories", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newCategory }),
-    });
-    if (res.ok) {
-      const added = await res.json();
-      setCategories([...categories, added]);
-      setNewCategory("");
+    try {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategory }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCategories(prev => [...prev, data]);
+        setNewCategory("");
+      } else {
+        alert(data.error || "Failed to add category");
+      }
+    } catch (err) {
+      alert("An error occurred. Please check console.");
+      console.error(err);
     }
   };
 
