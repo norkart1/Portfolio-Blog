@@ -171,8 +171,8 @@ export default function AdminDashboard() {
       </main>
 
       {/* Floating Footer Menu */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white rounded-[2.5rem] shadow-[0_12px_50px_rgba(0,0,0,0.12)] border border-gray-100/50 p-2 z-20">
-        <nav className="flex justify-between items-center px-3 py-1">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100/50 p-2 z-20">
+        <nav className="flex justify-between items-center px-2 py-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -180,13 +180,13 @@ export default function AdminDashboard() {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`relative flex items-center justify-center h-16 w-16 rounded-3xl transition-all duration-300 ${
+                className={`relative flex items-center justify-center h-14 w-14 rounded-2xl transition-all duration-300 ${
                   isActive 
-                    ? "bg-[#C24E00] text-white shadow-xl shadow-orange-900/30 scale-105" 
-                    : "text-[#333333] hover:bg-[#F8F9FA]"
+                    ? "bg-[#C24E00] text-white shadow-lg shadow-orange-900/20 scale-105" 
+                    : "text-[#333333] hover:bg-gray-50"
                 }`}
               >
-                <Icon className={`h-7 w-7 ${isActive ? "stroke-[2.5px]" : "stroke-[1.8px]"}`} />
+                <Icon className={`h-6 w-6 ${isActive ? "stroke-[2.5px]" : "stroke-[1.8px]"}`} />
               </button>
             );
           })}
