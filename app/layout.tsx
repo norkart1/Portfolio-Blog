@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Geist, Geist_Mono, Rubik, Anek_Malayalam, Anek_Latin } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
