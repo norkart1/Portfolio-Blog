@@ -3,6 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2, Search, Globe, ChevronDown, LayoutGrid } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -106,20 +107,11 @@ export default function AdminDashboard() {
   const handleAddCategory = async () => {
     if (!newCategory) return;
     try {
-      const res = await fetch("/api/categories", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newCategory }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setCategories(prev => [...prev, data]);
-        setNewCategory("");
-      } else {
-        alert(data.error || "Failed to add category");
-      }
-    } catch (err) {
-      alert("An error occurred. Please check console.");
+      const response = await axios.post("/api/categories", { name: newCategory });
+      setCategories(prev => [...prev, response.data]);
+      setNewCategory("");
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to add category");
       console.error(err);
     }
   };
