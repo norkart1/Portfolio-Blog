@@ -75,10 +75,10 @@ export default function AdminDashboard() {
         {activeTab === "add" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Shield className="h-4 w-4" />
-              Organizational Structure
+              <PlusCircle className="h-4 w-4" />
+              Create New Post
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Create New Post</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Post Content</h2>
             <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6 text-left">
               <input type="text" placeholder="Post Title" className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 text-lg" />
               <textarea placeholder="Write your content here..." rows={12} className="w-full p-5 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 resize-none text-lg"></textarea>
