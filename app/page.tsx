@@ -5,10 +5,10 @@ import Portfolio from "@/components/Portfolio";
 import Blogs from "@/components/Blogs";
 import Socials from "@/components/Socials";
 
-import { Home, BookOpen, Share2 } from "lucide-react";
+import { Home, BookOpen, User, Image, Mail } from "lucide-react";
 
 export default function BlogHome() {
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("blogs");
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans text-gray-900 pb-24">
@@ -30,7 +30,7 @@ export default function BlogHome() {
           
           <button 
             onClick={() => setActiveTab("blogs")}
-            className={`p-4 rounded-2xl transition-all ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
+            className={`p-4 rounded-2xl transition-all ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg shadow-orange-900/20" : "text-gray-400 hover:text-gray-600"}`}
           >
             <BookOpen className="h-6 w-6" />
           </button>
@@ -39,7 +39,19 @@ export default function BlogHome() {
             onClick={() => setActiveTab("socials")}
             className={`p-4 rounded-2xl transition-all ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg" : "text-gray-400 hover:text-gray-600"}`}
           >
-            <Share2 className="h-6 w-6" />
+            <User className="h-6 w-6" />
+          </button>
+
+          <button 
+            className="p-4 rounded-2xl transition-all text-gray-400 hover:text-gray-600"
+          >
+            <Image className="h-6 w-6" />
+          </button>
+
+          <button 
+            className="p-4 rounded-2xl transition-all text-gray-400 hover:text-gray-600"
+          >
+            <Mail className="h-6 w-6" />
           </button>
         </div>
       </nav>
