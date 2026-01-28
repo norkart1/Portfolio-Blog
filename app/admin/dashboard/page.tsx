@@ -36,21 +36,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] pb-24">
-      {/* Top Header */}
-      <header className="px-6 py-6 bg-white border-b border-gray-100 flex justify-between items-center sticky top-0 z-10">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
-        </div>
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => signOut()}
-            className="p-2 text-gray-400 hover:text-red-600 transition-colors"
-          >
-            <LogOut className="h-6 w-6" />
-          </button>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="max-w-2xl mx-auto p-6">
         {activeTab === "home" && (
