@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Globe, ChevronDown, Book } from "lucide-react";
+import { Search, Globe, ChevronDown, Book, Shield, BookOpen, Clock } from "lucide-react";
 
 export default function BlogHome() {
   const [activeFilter, setActiveFilter] = useState("ALL");
@@ -13,13 +13,35 @@ export default function BlogHome() {
     <div className="min-h-screen bg-white font-sans text-gray-900 pb-12">
       {/* Hero Section */}
       <section className="pt-16 pb-12 px-6 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFF9F2] border border-[#F5E6D3] rounded-full text-[#633A11] font-semibold text-sm mb-6 uppercase tracking-wider">
-          <Book className="h-4 w-4" />
-          The Archive
+        <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
+          <Shield className="h-4 w-4" />
+          Organizational Structure
         </div>
-        <h1 className="text-xl md:text-2xl text-[#666666] max-w-2xl mx-auto leading-relaxed font-medium">
-          A curated collection of scholarly articles, poetry, and community insights.
+        <h1 className="text-lg md:text-xl text-[#666666] max-w-2xl mx-auto leading-relaxed font-medium mb-12">
+          Meet the dedicated scholars and board members working tirelessly to uphold our mission of excellence.
         </h1>
+
+        {/* Stats Section */}
+        <div className="max-w-xl mx-auto grid grid-cols-2 gap-4 bg-white p-4 rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-gray-100 mb-16">
+          <div className="bg-[#FDFDFD] p-6 rounded-[2rem] flex items-center gap-4 text-left">
+            <div className="p-3 bg-white rounded-2xl shadow-sm">
+              <BookOpen className="h-6 w-6 text-[#A16207]" />
+            </div>
+            <div>
+              <p className="text-2xl font-black text-gray-900 leading-none">12</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Published</p>
+            </div>
+          </div>
+          <div className="bg-[#FDFDFD] p-6 rounded-[2rem] flex items-center gap-4 text-left">
+            <div className="p-3 bg-white rounded-2xl shadow-sm">
+              <Clock className="h-6 w-6 text-[#A16207]" />
+            </div>
+            <div>
+              <p className="text-2xl font-black text-gray-900 leading-none">4</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pending</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Search and Filters */}
