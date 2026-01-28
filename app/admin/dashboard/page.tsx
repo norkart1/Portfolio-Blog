@@ -30,7 +30,6 @@ export default function AdminDashboard() {
     { id: "home", icon: Home, label: "Home" },
     { id: "add", icon: PlusCircle, label: "Add Post" },
     { id: "posts", icon: List, label: "My Posts" },
-    { id: "status", icon: Activity, label: "Status" },
     { id: "profile", icon: User, label: "Profile" },
   ];
 
@@ -91,49 +90,50 @@ export default function AdminDashboard() {
               <List className="h-4 w-4" />
               My Blog Posts
             </div>
-            <div className="space-y-6 text-left">
+            <div className="max-w-4xl mx-auto space-y-6 text-left pb-12">
               {[1, 2, 3].map(i => (
-                <div key={i} className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 flex items-center justify-between group hover:shadow-md transition-shadow">
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-900">How to build a Next.js app {i}</h4>
-                    <p className="text-sm text-gray-400 mt-2">Published on Jan 28, 2026 • 120 views</p>
+                <div key={i} className="group cursor-pointer">
+                  {/* Thumbnail / Image Placeholder */}
+                  <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] bg-gray-100 mb-4 shadow-sm">
+                    <img 
+                      src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop`} 
+                      alt="Post thumbnail"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-4 right-4 bg-black/80 text-white text-[10px] font-bold px-2 py-1 rounded">
+                      12:45
+                    </div>
                   </div>
-                  <button className="text-base text-blue-600 font-bold px-6 py-2 hover:bg-blue-50 rounded-xl transition-colors">Edit</button>
+                  
+                  {/* Post Info */}
+                  <div className="flex gap-4 px-2">
+                    <div className="h-10 w-10 shrink-0 rounded-full bg-[#C24E00] flex items-center justify-center text-white font-bold text-sm">
+                      A
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+                        How to build a professional Next.js application from scratch - Part {i}
+                      </h4>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
+                        <span>Admin</span>
+                        <span className="h-1 w-1 bg-gray-300 rounded-full" />
+                        <span>1.2K views</span>
+                        <span className="h-1 w-1 bg-gray-300 rounded-full" />
+                        <span>2 hours ago</span>
+                      </div>
+                    </div>
+                    <button className="h-8 w-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors self-start">
+                      <List className="h-5 w-5 text-gray-500" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {activeTab === "status" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
-            <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Activity className="h-4 w-4" />
-              System Status
-            </div>
-            <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-8 text-left">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 text-lg font-medium">Database Connection</span>
-                <span className="flex items-center text-green-600 font-bold gap-3">
-                  <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse" />
-                  Connected
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 text-lg font-medium">API Server</span>
-                <span className="flex items-center text-green-600 font-bold gap-3">
-                  <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse" />
-                  Online
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 text-lg font-medium">Uptime</span>
-                <span className="text-gray-900 font-bold text-lg">99.9%</span>
-              </div>
-            </div>
-          </div>
-        )}
-
+        {/* Status tab logic removed */}
+        
         {activeTab === "profile" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
