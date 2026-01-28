@@ -125,8 +125,12 @@ export default function AdminDashboard() {
       console.log("Adding category:", newCategory.trim());
       const response = await axios.post("/api/categories", { name: newCategory.trim() });
       console.log("Server response:", response.data);
-      setCategories(prev => [...prev, response.data]);
-      setNewCategory("");
+      if (response.data && response.data._id) {
+        setCategories(prev => [...prev, response.data]);
+        setNewCategory("");
+      } else {
+        alert("Server returned invalid data");
+      }
     } catch (err: any) {
       console.error("Add category error:", err);
       const errorMsg = err.response?.data?.error || err.message || "Failed to add category";
@@ -443,7 +447,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {categories.map((cat) => (
+              {categories.filter(cat => cat && cat._id).map((cat) => (
                 <div key={cat._id} className="bg-white p-5 rounded-2xl border border-gray-100 flex flex-col sm:flex-row justify-between items-center shadow-sm gap-3">
                   {editingId === cat._id ? (
                     <input 
