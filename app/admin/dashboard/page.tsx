@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2, Search, Globe, ChevronDown } from "lucide-react";
+import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2, Search, Globe, ChevronDown, LayoutGrid } from "lucide-react";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
@@ -28,6 +28,7 @@ export default function AdminDashboard() {
 
   const navItems = [
     { id: "home", icon: Home, label: "Home" },
+    { id: "category", icon: LayoutGrid, label: "Category" },
     { id: "add", icon: PlusCircle, label: "Add Post" },
     { id: "posts", icon: List, label: "My Posts" },
     { id: "profile", icon: User, label: "Profile" },
