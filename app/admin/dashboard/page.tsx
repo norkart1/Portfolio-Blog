@@ -92,33 +92,33 @@ export default function AdminDashboard() {
             </div>
 
             {/* Search and Filters */}
-            <section className="px-6 mb-12">
-              <div className="max-w-xl mx-auto bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 p-6 text-left">
-                {/* Search Input */}
-                <div className="relative mb-6">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <section className="px-4 mb-10">
+              <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-center gap-3">
+                {/* Compact Search */}
+                <div className="relative flex-1 w-full">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Search articles..."
-                    className="w-full bg-[#F8F9FA] border-none rounded-2xl py-4 pl-12 pr-4 text-gray-600 focus:ring-2 focus:ring-[#C24E00]/10 outline-none"
+                    className="w-full bg-white border border-gray-100 rounded-2xl py-3 pl-11 pr-4 text-sm text-gray-600 focus:ring-2 focus:ring-[#C24E00]/5 focus:border-[#C24E00]/20 shadow-sm outline-none transition-all"
                   />
                 </div>
 
-                {/* Filter Bar */}
-                <div className="flex flex-wrap items-center gap-4">
-                  <button className="flex items-center gap-2 px-5 py-3 border border-gray-100 rounded-2xl text-gray-700 font-medium hover:bg-gray-50 transition-colors">
-                    <Globe className="h-5 w-5 text-[#C24E00]" />
-                    All Languages
-                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                {/* Compact Filters */}
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <button className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-100 rounded-2xl text-xs font-bold text-gray-600 hover:bg-gray-50 transition-colors shadow-sm shrink-0">
+                    <Globe className="h-4 w-4 text-[#C24E00]" />
+                    <span>EN</span>
+                    <ChevronDown className="h-3 w-3 text-gray-400" />
                   </button>
                   
-                  <div className="flex items-center gap-2 bg-[#F8F9FA] p-1.5 rounded-2xl">
+                  <div className="flex items-center gap-1 bg-white border border-gray-100 p-1 rounded-2xl shadow-sm overflow-hidden">
                     {["ALL", "ARTICLE", "POEM"].map((cat) => (
                       <button
                         key={cat}
-                        className={`px-6 py-2 rounded-xl text-xs font-bold tracking-widest transition-all ${
+                        className={`px-4 py-2 rounded-xl text-[10px] font-black tracking-tighter transition-all ${
                           cat === "ALL"
-                            ? "bg-white text-gray-900 shadow-sm"
+                            ? "bg-[#C24E00] text-white"
                             : "text-gray-400 hover:text-gray-600"
                         }`}
                       >
