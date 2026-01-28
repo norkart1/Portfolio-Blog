@@ -9,14 +9,19 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  // Simple check - in production you'd verify session
   await dbConnect();
   try {
-    const { name } = await req.json();
-    const slug = name.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+    const body = await req.json();
+    console.log("POST /api/categories body:", body);
+    const { name } = body;
+    if (!name) {
+      return NextResponse.json({ error: "Name is required" }, { status: 400 });
+    }
+    const slug = name.toLowerCase().trim().replace(/ /g, "-").replace(/[^\w-]+/g, "");
     const category = await Category.create({ name, slug });
     return NextResponse.json(category);
   } catch (error: any) {
+    console.error("POST /api/categories error:", error);
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }

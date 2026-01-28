@@ -11,9 +11,13 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("posts");
 
+  const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
   const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "" });
   const [uploading, setUploading] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState("");
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,9 +62,6 @@ export default function AdminDashboard() {
       setActiveTab("posts");
     }
   };
-  const [newCategory, setNewCategory] = useState("");
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState("");
 
   const handleUpdateCategory = async (id: string) => {
     if (!editingName) return;
@@ -92,8 +93,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const [posts, setPosts] = useState<any[]>([]);
-
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/admin/login");
@@ -107,12 +106,14 @@ export default function AdminDashboard() {
   const handleAddCategory = async () => {
     if (!newCategory) return;
     try {
+      console.log("Adding category:", newCategory);
       const response = await axios.post("/api/categories", { name: newCategory });
+      console.log("Server response:", response.data);
       setCategories(prev => [...prev, response.data]);
       setNewCategory("");
     } catch (err: any) {
-      alert(err.response?.data?.error || "Failed to add category");
-      console.error(err);
+      console.error("Add category error:", err);
+      alert(err.response?.data?.error || err.message || "Failed to add category");
     }
   };
 
@@ -405,8 +406,12 @@ export default function AdminDashboard() {
                   className="flex-1 p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20 w-full" 
                 />
                 <button 
-                  onClick={handleAddCategory}
-                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 transition-all w-full sm:w-auto"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAddCategory();
+                  }}
+                  className="px-8 py-4 bg-[#C24E00] text-white font-bold rounded-2xl hover:opacity-95 active:scale-95 transition-all w-full sm:w-auto cursor-pointer relative z-50"
                 >
                   Add
                 </button>
