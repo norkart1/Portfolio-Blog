@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db/mongodb";
 import Category from "@/models/Category";
-import { getServerSession } from "next-auth/react";
 
 export async function GET() {
   await dbConnect();
