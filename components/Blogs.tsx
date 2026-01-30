@@ -50,7 +50,9 @@ const Blogs = () => {
       const res = await fetch(`/api/posts/${postId}/like`, { method: 'POST' });
       if (res.ok) {
         const updatedPost = await res.json();
-        setPosts(posts.map(p => p._id === postId ? { ...p, likes: updatedPost.likes } : p));
+        setPosts(posts.map(p => p._id === postId ? { ...p, likes: updatedPost.likes, isLiked: true } : p));
+      } else if (res.status === 400) {
+        alert("You have already liked this post.");
       }
     } catch (err) {
       console.error('Error liking post:', err);

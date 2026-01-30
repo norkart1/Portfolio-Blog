@@ -16,7 +16,9 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
       const res = await fetch(`/api/posts/${post._id}/like`, { method: 'POST' });
       if (res.ok) {
         const updatedPost = await res.json();
-        setPost({ ...post, likes: updatedPost.likes });
+        setPost({ ...post, likes: updatedPost.likes, isLiked: true });
+      } else if (res.status === 400) {
+        alert("You have already liked this post.");
       }
     } catch (err) {
       console.error('Error liking post:', err);
