@@ -154,9 +154,17 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
 
         {/* Author Card */}
         <div className="flex items-center gap-4 p-6 bg-gray-50 rounded-3xl mb-12 border border-gray-100">
-          <div className="w-12 h-12 rounded-2xl bg-[#C24E00] flex items-center justify-center text-white font-black text-xl">
-            {post.author?.[0] || 'A'}
-          </div>
+          {post.authorProfile ? (
+            <img 
+              src={post.authorProfile} 
+              alt={post.author} 
+              className="w-12 h-12 rounded-2xl object-cover border border-gray-100 shadow-sm"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-2xl bg-[#C24E00] flex items-center justify-center text-white font-black text-xl">
+              {post.author?.[0] || 'A'}
+            </div>
+          )}
           <div>
             <p className="text-sm font-black text-gray-900">{post.author || 'Admin'}</p>
             <div className="flex items-center gap-3 text-xs font-bold text-gray-400">
