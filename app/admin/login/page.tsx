@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-[#D1510A] focus:ring-4 focus:ring-[#D1510A]/10 text-sm outline-none transition-all duration-200"
+                  className="block w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-[#D1510A] focus:ring-4 focus:ring-[#D1510A]/10 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-all duration-200"
                   placeholder="admin@example.com"
                 />
               </div>
@@ -85,7 +85,7 @@ export default function AdminLoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-[#D1510A] focus:ring-4 focus:ring-[#D1510A]/10 text-sm outline-none transition-all duration-200"
+                  className="block w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-transparent rounded-2xl focus:bg-white focus:border-[#D1510A] focus:ring-4 focus:ring-[#D1510A]/10 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-all duration-200"
                   placeholder="••••••••"
                 />
               </div>
