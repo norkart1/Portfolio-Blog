@@ -7,10 +7,13 @@ export interface IPost {
   image: string;
   category: mongoose.Types.ObjectId;
   author: string;
+  authorProfile?: string;
   readTime: string;
   language: string;
   textAlign: string;
   textColor: string;
+  likes?: number;
+  views?: number;
   createdAt: Date;
 }
 
