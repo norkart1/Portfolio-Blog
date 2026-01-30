@@ -32,8 +32,10 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
           title: post.title,
           url: window.location.href,
         });
-      } catch (err) {
-        console.error('Error sharing:', err);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
       }
     } else {
       navigator.clipboard.writeText(window.location.href);

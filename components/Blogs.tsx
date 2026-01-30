@@ -68,8 +68,10 @@ const Blogs = () => {
           title: post.title,
           url: `${window.location.origin}/blog/${post._id}`,
         });
-      } catch (err) {
-        console.error('Error sharing:', err);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
       }
     } else {
       // Fallback
