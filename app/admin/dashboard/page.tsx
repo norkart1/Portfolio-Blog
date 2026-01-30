@@ -7,11 +7,17 @@ import axios from "axios";
 import { Home, PlusCircle, List, Activity, User, LogOut, Loader2, BookOpen, Eye, Users, Shield, Clock, PenTool, Trash2, Search, Globe, ChevronDown, LayoutGrid } from "lucide-react";
 
 import RichTextEditor from "@/components/RichTextEditor";
+import Modal from "@/components/Modal";
 
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("posts");
+
+  const [modal, setModal] = useState({ isOpen: false, title: "", message: "", type: 'success' as 'success' | 'error' | 'warning' });
+  const showModal = (title: string, message: string, type: 'success' | 'error' | 'warning' = 'success') => {
+    setModal({ isOpen: true, title, message, type });
+  };
 
   const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
@@ -89,7 +95,7 @@ export default function AdminDashboard() {
 
   const handlePublish = async () => {
     if (!newPost.title || !newPost.content || !newPost.category || !newPost.image) {
-      alert("Please fill all fields and upload an image");
+      showModal("Wait!", "Please fill all fields and upload an image", "warning");
       return;
     }
 
@@ -109,7 +115,7 @@ export default function AdminDashboard() {
     });
 
     if (res.ok) {
-      alert(editingPostId ? "Post updated successfully!" : "Post published successfully!");
+      showModal("Great News!", editingPostId ? "Post updated successfully!" : "Post published successfully!", "success");
       setNewPost({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left", textColor: "#333333", authorName: "", authorProfile: "" });
       setEditingPostId(null);
       setActiveTab("posts");
@@ -214,6 +220,13 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] pb-24 lg:pb-0 lg:flex">
+      <Modal 
+        isOpen={modal.isOpen} 
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+      />
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-gray-100 p-6 fixed h-full z-30">
         <div className="mb-10 px-2">
