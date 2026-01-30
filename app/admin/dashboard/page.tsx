@@ -16,6 +16,21 @@ export default function AdminDashboard() {
   const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
   const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left", textColor: "#333333" });
+  const [activeLanguageFilter, setActiveLanguageFilter] = useState("ALL");
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState("ALL");
+
+  const filteredPosts = posts.filter((post: any) => {
+    const matchesCategory = activeCategoryFilter === "ALL" || post.category?.name?.toUpperCase() === activeCategoryFilter;
+    const matchesLanguage = activeLanguageFilter === "ALL" || post.language?.toUpperCase() === activeLanguageFilter;
+    return matchesCategory && matchesLanguage;
+  });
+
+  const languages = [
+    { code: "ALL", name: "All Languages" },
+    { code: "EN", name: "English" },
+    { code: "AR", name: "Arabic" },
+    { code: "ML", name: "Malayalam" }
+  ];
   const [uploading, setUploading] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -385,23 +400,43 @@ export default function AdminDashboard() {
 
                 {/* Compact Filters */}
                 <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <button className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-100 rounded-2xl text-xs font-bold text-gray-600 hover:bg-gray-50 transition-colors shadow-sm shrink-0">
-                    <Globe className="h-4 w-4 text-[#C24E00]" />
-                    <span>EN</span>
-                    <ChevronDown className="h-3 w-3 text-gray-400" />
-                  </button>
+                  <div className="relative z-50">
+                    <select
+                      value={activeLanguageFilter}
+                      onChange={(e) => setActiveLanguageFilter(e.target.value)}
+                      className="appearance-none flex items-center gap-2 px-4 py-3 bg-white border border-gray-100 rounded-2xl text-xs font-bold text-gray-600 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer outline-none pr-8"
+                    >
+                      {languages.map(lang => (
+                        <option key={lang.code} value={lang.code}>{lang.code}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-400 pointer-events-none" />
+                  </div>
                   
-                  <div className="flex items-center gap-1 bg-white border border-gray-100 p-1 rounded-2xl shadow-sm overflow-hidden">
-                    {["ALL", "ARTICLE", "POEM"].map((cat) => (
+                  <div className="flex items-center gap-1 bg-white border border-gray-100 p-1 rounded-2xl shadow-sm overflow-hidden z-50">
+                    <button
+                      type="button"
+                      onClick={() => setActiveCategoryFilter("ALL")}
+                      className={`px-4 py-2 rounded-xl text-[10px] font-black tracking-tighter transition-all cursor-pointer ${
+                        activeCategoryFilter === "ALL"
+                          ? "bg-[#C24E00] text-white"
+                          : "text-gray-400 hover:text-gray-600"
+                      }`}
+                    >
+                      ALL
+                    </button>
+                    {categories.slice(0, 2).map((cat) => (
                       <button
-                        key={cat}
-                        className={`px-4 py-2 rounded-xl text-[10px] font-black tracking-tighter transition-all ${
-                          cat === "ALL"
+                        key={cat._id}
+                        type="button"
+                        onClick={() => setActiveCategoryFilter(cat.name.toUpperCase())}
+                        className={`px-4 py-2 rounded-xl text-[10px] font-black tracking-tighter transition-all cursor-pointer ${
+                          activeCategoryFilter === cat.name.toUpperCase()
                             ? "bg-[#C24E00] text-white"
                             : "text-gray-400 hover:text-gray-600"
                         }`}
                       >
-                        {cat}
+                        {cat.name.toUpperCase()}
                       </button>
                     ))}
                   </div>
@@ -410,7 +445,7 @@ export default function AdminDashboard() {
             </section>
 
             <div className="max-w-4xl mx-auto space-y-8 text-left pb-12 px-2">
-              {posts.map(post => (
+              {filteredPosts.map(post => (
                 <div key={post._id} className="group flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-all">
                   {/* Blog Thumbnail */}
                   <div className="relative w-full sm:w-48 h-48 shrink-0 overflow-hidden rounded-[2rem] bg-gray-50">
