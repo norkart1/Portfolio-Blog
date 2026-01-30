@@ -4,12 +4,13 @@ import Post from '@/models/Post';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await connectDB();
     const post = await Post.findByIdAndUpdate(
-      params.id,
+      id,
       { $inc: { likes: 1 } },
       { new: true }
     );
