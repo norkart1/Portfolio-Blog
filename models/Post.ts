@@ -21,6 +21,7 @@ const PostSchema = new Schema<IPost>(
     image: { type: String, required: true },
     category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
     author: { type: String, required: true },
+    authorProfile: { type: String, default: "" },
     readTime: { type: String, required: true },
     language: { type: String, default: "en" },
     textAlign: { type: String, default: "left" },

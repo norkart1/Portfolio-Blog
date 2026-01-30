@@ -15,7 +15,7 @@ export default function AdminDashboard() {
 
   const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<{_id: string, name: string}[]>([]);
-  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left", textColor: "#333333" });
+  const [newPost, setNewPost] = useState({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left", textColor: "#333333", authorName: "", authorProfile: "" });
   const [activeLanguageFilter, setActiveLanguageFilter] = useState("ALL");
   const [activeCategoryFilter, setActiveCategoryFilter] = useState("ALL");
 
@@ -80,7 +80,8 @@ export default function AdminDashboard() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...newPost,
-        author: session?.user?.name || "Admin",
+        author: newPost.authorName || session?.user?.name || "Admin",
+        authorProfile: newPost.authorProfile,
         readTime: "5 min read",
         language: newPost.language
       }),
@@ -322,6 +323,29 @@ export default function AdminDashboard() {
                       )}
                     </label>
                   </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Author Name</label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter author name" 
+                    value={newPost.authorName}
+                    onChange={(e) => setNewPost({ ...newPost, authorName: e.target.value })}
+                    className="w-full p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Author Profile (Optional URL)</label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter profile image URL" 
+                    value={newPost.authorProfile}
+                    onChange={(e) => setNewPost({ ...newPost, authorProfile: e.target.value })}
+                    className="w-full p-4 bg-[#F8F9FA] border-none rounded-2xl outline-none focus:ring-2 focus:ring-orange-500/20" 
+                  />
                 </div>
               </div>
 

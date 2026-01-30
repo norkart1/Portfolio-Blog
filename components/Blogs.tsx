@@ -226,9 +226,22 @@ const Blogs = () => {
                     
                     {/* Footer */}
                     <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <p className="font-bold text-sm text-gray-900 leading-tight">{post.author || "Hafiz rashid hussain"}</p>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
+                      <div className="flex items-center gap-3">
+                        {post.authorProfile ? (
+                          <img 
+                            src={post.authorProfile} 
+                            alt={post.author} 
+                            className="h-10 w-10 rounded-full object-cover border border-gray-100 shadow-sm"
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-[#D1510A] font-bold text-sm">
+                            {post.author?.[0]?.toUpperCase() || "H"}
+                          </div>
+                        )}
+                        <div className="space-y-0.5">
+                          <p className="font-bold text-sm text-gray-900 leading-tight">{post.author || "Hafiz rashid hussain"}</p>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
+                        </div>
                       </div>
                       
                       <button 
