@@ -11,18 +11,46 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  const handleLike = async () => {
+    try {
+      const res = await fetch(`/api/posts/${post._id}/like`, { method: 'POST' });
+      if (res.ok) {
+        const updatedPost = await res.json();
+        setPost({ ...post, likes: updatedPost.likes });
+      }
+    } catch (err) {
+      console.error('Error liking post:', err);
+    }
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title,
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied to clipboard!');
+    }
+  };
+
   useEffect(() => {
-    fetch(`/api/posts?id=${resolvedParams.id}`)
-      .then(res => res.json())
-      .then(data => {
-        setPost(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching post:', err);
-        setLoading(false);
-      });
-  }, [resolvedParams.id]);
+    if (post && !loading) {
+      fetch(`/api/posts/${post._id}/view`, { method: 'POST' })
+        .then(res => res.json())
+        .then(updatedPost => {
+          if (updatedPost.views) {
+            setPost((prev: any) => ({ ...prev, views: updatedPost.views }));
+          }
+        })
+        .catch(err => console.error('Error incrementing view:', err));
+    }
+  }, [post?._id, loading]);
 
   if (loading) {
     return (
@@ -55,11 +83,17 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
             <ChevronLeft className="w-6 h-6 text-gray-900" />
           </button>
           <div className="flex items-center gap-2">
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <button 
+              onClick={handleShare}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
               <Share2 className="w-5 h-5 text-gray-600" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <Heart className="w-5 h-5 text-gray-600" />
+            <button 
+              onClick={handleLike}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors group"
+            >
+              <Heart className={`w-5 h-5 transition-colors ${post?.isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600 group-hover:text-red-500'}`} />
             </button>
           </div>
         </div>

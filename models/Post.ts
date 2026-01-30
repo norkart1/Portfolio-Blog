@@ -25,6 +25,8 @@ const PostSchema = new Schema<IPost>(
     language: { type: String, default: "en" },
     textAlign: { type: String, default: "left" },
     textColor: { type: String, default: "#333333" },
+    likes: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

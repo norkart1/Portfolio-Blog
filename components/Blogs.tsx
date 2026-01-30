@@ -34,13 +34,37 @@ const Blogs = () => {
       .catch(err => console.error('Error fetching categories:', err));
   }, []);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric"
-    }).toUpperCase();
+  const handleLike = async (e: React.MouseEvent, postId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const res = await fetch(`/api/posts/${postId}/like`, { method: 'POST' });
+      if (res.ok) {
+        const updatedPost = await res.json();
+        setPosts(posts.map(p => p._id === postId ? { ...p, likes: updatedPost.likes } : p));
+      }
+    } catch (err) {
+      console.error('Error liking post:', err);
+    }
+  };
+
+  const handleShare = async (e: React.MouseEvent, post: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title,
+          url: `${window.location.origin}/blog/${post._id}`,
+        });
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      // Fallback
+      navigator.clipboard.writeText(`${window.location.origin}/blog/${post._id}`);
+      alert('Link copied to clipboard!');
+    }
   };
 
   const filteredPosts = posts.filter((post: any) => {
@@ -165,11 +189,8 @@ const Blogs = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    className="absolute top-4 right-4 h-10 w-10 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center text-gray-600 shadow-lg hover:bg-white transition-all active:scale-95"
+                    onClick={(e) => handleShare(e, post)}
+                    className="absolute top-4 right-4 h-10 w-10 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center text-gray-600 shadow-lg hover:bg-white transition-all active:scale-95 z-30"
                   >
                     <Share2 className="h-5 w-5" />
                   </button>
@@ -187,13 +208,16 @@ const Blogs = () => {
                   <div className="flex items-center justify-center gap-8 w-full mt-auto text-gray-500 pb-2">
                     <div className="flex items-center gap-2 group/stat">
                       <Eye className="h-5 w-5 text-gray-400 group-hover/stat:text-[#D1510A] transition-colors" />
-                      <span className="text-sm font-bold tracking-tight">{post.views || 11}</span>
+                      <span className="text-sm font-bold tracking-tight">{post.views || 0}</span>
                     </div>
                     
-                    <div className="flex items-center gap-2 group/stat">
-                      <Heart className="h-5 w-5 text-gray-400 group-hover/stat:text-red-500 transition-colors" />
-                      <span className="text-sm font-bold tracking-tight">{post.likes || 8}</span>
-                    </div>
+                    <button 
+                      onClick={(e) => handleLike(e, post._id)}
+                      className="flex items-center gap-2 group/stat hover:scale-110 transition-transform"
+                    >
+                      <Heart className={`h-5 w-5 transition-colors ${post.isLiked ? 'fill-red-500 text-red-500' : 'text-gray-400 group-hover/stat:text-red-500'}`} />
+                      <span className="text-sm font-bold tracking-tight">{post.likes || 0}</span>
+                    </button>
                   </div>
                 </div>
               </div>
