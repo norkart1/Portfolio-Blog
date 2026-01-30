@@ -40,9 +40,6 @@ externalPort = 80
 [userenv]
 
 [userenv.shared]
-PUSHER_CLUSTER = "ap2"
-PUSHER_KEY = "846a22fd1d3500059c91"
-PUSHER_SECRET = "ef5ac2367bc1089d0585"
 
 [deployment]
 deploymentTarget = "autoscale"
