@@ -82,28 +82,29 @@ const Blogs = () => {
             />
           </div>
 
-          <div className="flex items-center gap-3 relative z-10">
+          <div className="flex items-center gap-3 relative z-[60]">
             <div className="relative">
               <select
                 value={activeLanguage}
                 onChange={(e) => setActiveLanguage(e.target.value)}
-                className="appearance-none flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm pr-10 outline-none bg-white cursor-pointer relative z-20"
+                className="appearance-none flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-full text-gray-700 font-medium hover:bg-gray-50 transition-colors text-sm pr-10 outline-none bg-white cursor-pointer relative z-[70]"
               >
                 {languages.map(lang => (
                   <option key={lang.code} value={lang.code}>{lang.name}</option>
                 ))}
               </select>
-              <Languages className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#C24E00] pointer-events-none z-30" />
+              <Languages className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#C24E00] pointer-events-none z-[80]" />
             </div>
             
-            <div className="flex-1 overflow-x-auto no-scrollbar flex items-center gap-2 relative z-20">
+            <div className="flex-1 overflow-x-auto no-scrollbar flex items-center gap-2 relative z-[70]">
               <button
+                type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setActiveFilter("ALL");
                 }}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap relative z-30 ${
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap relative z-[80] cursor-pointer ${
                   activeFilter === "ALL" ? "bg-[#D1510A] text-white shadow-md" : "bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
                 }`}
               >
@@ -112,12 +113,13 @@ const Blogs = () => {
               {categories.map(cat => (
                 <button
                   key={cat._id}
+                  type="button"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     setActiveFilter(cat.name.toUpperCase());
                   }}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap relative z-30 ${
+                  className={`px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all whitespace-nowrap relative z-[80] cursor-pointer ${
                     activeFilter === cat.name.toUpperCase() ? "bg-[#D1510A] text-white shadow-md" : "bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
                   }`}
                 >
