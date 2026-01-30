@@ -34,6 +34,15 @@ const Blogs = () => {
       .catch(err => console.error('Error fetching categories:', err));
   }, []);
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    }).toUpperCase();
+  };
+
   const handleLike = async (e: React.MouseEvent, postId: string) => {
     e.preventDefault();
     e.stopPropagation();
