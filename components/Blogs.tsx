@@ -164,60 +164,72 @@ const Blogs = () => {
         ) : filteredPosts.length > 0 ? (
           filteredPosts.map((post: any) => (
             <Link key={post._id} href={`/blog/${post._id}`} className="block group mb-12">
-              <div className="bg-white rounded-3xl overflow-hidden transition-all duration-300 h-full flex flex-col">
+              <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
                 
-                {/* Author Header */}
-                <div className="flex items-center gap-4 p-4 border-b border-gray-50">
-                  <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center border border-gray-100 shadow-inner">
-                    <PenTool className="h-5 w-5 text-gray-500" />
-                  </div>
-                  <div className="flex flex-col">
-                    <h4 className="text-sm font-bold text-gray-900 leading-tight uppercase tracking-tight">
-                      {post.author || "Hafiz Rashid Hussain"}
-                    </h4>
-                    <span className="text-xs text-gray-400 font-medium tracking-tight">
-                      Editorial Contributor
-                    </span>
-                  </div>
-                </div>
-
-                {/* Main Image with Share Button */}
-                <div className="relative aspect-video mx-4 mt-6 rounded-[2.5rem] overflow-hidden group/image shadow-sm">
+                {/* Main Image with Category Tag */}
+                <div className="relative aspect-video overflow-hidden group/image">
                   <img 
                     src={post.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <button 
-                    onClick={(e) => handleShare(e, post)}
-                    className="absolute top-4 right-4 h-10 w-10 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center text-gray-600 shadow-lg hover:bg-white transition-all active:scale-95 z-30"
-                  >
-                    <Share2 className="h-5 w-5" />
-                  </button>
+                  {/* Category Tag Overlay */}
+                  <div className="absolute top-4 left-4">
+                    <span className="px-4 py-2 bg-[#FFB800] text-black text-[10px] font-black uppercase tracking-widest rounded-lg shadow-sm">
+                      {post.category?.name || "FEATURED ARTICLE"}
+                    </span>
+                  </div>
                 </div>
-                
-                <div className="p-6 pt-8 flex-1 flex flex-col items-center text-center">
-                  {/* Title & Engagement Stats */}
-                  <h3 className={`font-bold text-2xl mb-6 text-gray-900 leading-tight group-hover:text-[#C24E00] transition-colors ${
+
+                <div className="p-8 flex-1 flex flex-col">
+                  {/* Meta Info */}
+                  <div className={`flex items-center gap-2 mb-6 text-[10px] font-bold tracking-widest uppercase ${
                     post.language === 'ar' ? 'font-rubik' : 'font-anek'
+                  }`}>
+                    <span className="text-[#D1510A]">
+                      {post.language === "en" ? "ENGLISH" : post.language?.toUpperCase() || "ENGLISH"}
+                    </span>
+                    <span className="text-gray-300">•</span>
+                    <span className="text-gray-400">
+                      {formatDate(post.createdAt)}
+                    </span>
+                  </div>
+                  
+                  {/* Title */}
+                  <h3 className={`font-bold text-4xl mb-6 text-gray-900 leading-tight group-hover:text-[#D1510A] transition-colors ${
+                    post.language === 'ar' ? 'font-rubik text-right' : 'font-anek'
                   }`}>
                     {post.title}
                   </h3>
                   
-                  {/* Footer Stats */}
-                  <div className="flex items-center justify-center gap-8 w-full mt-auto text-gray-500 pb-2">
-                    <div className="flex items-center gap-2 group/stat">
-                      <Eye className="h-5 w-5 text-gray-400 group-hover/stat:text-[#D1510A] transition-colors" />
-                      <span className="text-sm font-bold tracking-tight">{post.views || 0}</span>
-                    </div>
+                  {/* Content Preview */}
+                  <div 
+                    className={`text-gray-500 text-sm leading-relaxed line-clamp-3 mb-8 prose prose-sm max-w-none ${
+                      post.language === 'ar' ? 'font-rubik text-right rtl' : 'font-anek'
+                    }`}
+                    style={{ direction: post.language === 'ar' ? 'rtl' : 'ltr' }}
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                  
+                  <div className="mt-auto">
+                    {/* Divider */}
+                    <div className="h-px bg-gray-100 w-full mb-6"></div>
                     
-                    <button 
-                      onClick={(e) => handleLike(e, post._id)}
-                      className="flex items-center gap-2 group/stat hover:scale-110 transition-transform"
-                    >
-                      <Heart className={`h-5 w-5 transition-colors ${post.isLiked ? 'fill-red-500 text-red-500' : 'text-gray-400 group-hover/stat:text-red-500'}`} />
-                      <span className="text-sm font-bold tracking-tight">{post.likes || 0}</span>
-                    </button>
+                    {/* Footer */}
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <p className="font-bold text-sm text-gray-900 leading-tight">{post.author || "Hafiz rashid hussain"}</p>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
+                      </div>
+                      
+                      <button 
+                        onClick={(e) => handleLike(e, post._id)}
+                        className="flex items-center gap-2 px-5 py-2 bg-white border border-gray-100 rounded-full shadow-sm text-gray-400 hover:text-red-500 transition-all active:scale-95 group/like"
+                      >
+                        <Heart className={`h-4 w-4 transition-colors ${post.isLiked ? 'fill-red-500 text-red-500' : 'text-gray-300 group-hover/like:text-red-500'}`} />
+                        <span className="text-xs font-bold text-gray-600">{post.likes || 0}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
