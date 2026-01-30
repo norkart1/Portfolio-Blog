@@ -11,8 +11,8 @@ export default function BlogHome() {
   const [activeTab, setActiveTab] = useState("blogs");
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] font-sans text-gray-900">
-      <main className="pb-24">
+    <div className="min-h-screen bg-[#FAFAFA] font-sans text-gray-900 flex flex-col">
+      <main className="flex-1 pb-32">
         {activeTab === "home" && <Portfolio />}
         {activeTab === "blogs" && <Blogs />}
         {activeTab === "socials" && <Socials />}

@@ -45,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${rubik.variable} ${anekMalayalam.variable} ${anekLatin.variable} antialiased min-h-screen pb-24`}
+        className={`${geistSans.variable} ${geistMono.variable} ${rubik.variable} ${anekMalayalam.variable} ${anekLatin.variable} antialiased min-h-screen bg-[#FAFAFA]`}
       >
         <AuthProvider>
           {children}
