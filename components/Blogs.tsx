@@ -113,7 +113,9 @@ const Blogs = () => {
       {/* Header Section */}
       <section className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FFF9F2] border border-[#E5D4C0] rounded-full text-[#C24E00] font-bold text-xs uppercase tracking-wider shadow-sm">
-          <BookOpen className="h-4 w-4" />
+          <div className="h-4 w-4 rounded-sm overflow-hidden border border-gray-100/10">
+            <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
+          </div>
           BLOGS
         </div>
       </section>

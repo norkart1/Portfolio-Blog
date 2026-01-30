@@ -268,7 +268,9 @@ export default function AdminDashboard() {
         {activeTab === "home" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <Home className="h-4 w-4" />
+              <div className="h-4 w-4 rounded-sm overflow-hidden border border-gray-100/10">
+                <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
+              </div>
               Dashboard Overview
             </div>
 
@@ -299,7 +301,9 @@ export default function AdminDashboard() {
         {activeTab === "add" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <PlusCircle className="h-4 w-4" />
+              <div className="h-4 w-4 rounded-sm overflow-hidden border border-gray-100/10">
+                <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
+              </div>
               Create New Post
             </div>
             <div className="bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 space-y-6 text-left max-w-3xl mx-auto">
@@ -446,7 +450,9 @@ export default function AdminDashboard() {
         {activeTab === "posts" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <List className="h-4 w-4" />
+              <div className="h-4 w-4 rounded-sm overflow-hidden border border-gray-100/10">
+                <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
+              </div>
               My Blog Posts
             </div>
 
@@ -576,7 +582,9 @@ export default function AdminDashboard() {
         {activeTab === "category" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-center">
             <div className="inline-flex items-center gap-2 px-6 py-2 bg-white border border-[#F5E6D3] rounded-full text-[#A16207] font-bold text-xs mb-8 uppercase tracking-widest shadow-sm">
-              <LayoutGrid className="h-4 w-4" />
+              <div className="h-4 w-4 rounded-sm overflow-hidden border border-gray-100/10">
+                <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
+              </div>
               Manage Categories
             </div>
             
