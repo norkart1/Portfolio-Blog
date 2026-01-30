@@ -40,6 +40,8 @@ externalPort = 80
 [userenv]
 
 [userenv.shared]
+NEXT_PUBLIC_PUSHER_KEY = "{{PUSHER_KEY}}}"
+NEXT_PUBLIC_PUSHER_CLUSTER = "{{PUSHER_CLUSTER}}}"
 
 [deployment]
 deploymentTarget = "autoscale"
