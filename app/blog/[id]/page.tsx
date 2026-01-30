@@ -4,12 +4,18 @@ import { useEffect, useState, use } from 'react';
 import { ChevronLeft, Calendar, User, Clock, Heart, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Modal from '@/components/Modal';
 
 export default function BlogDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const [post, setPost] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [modal, setModal] = useState({ isOpen: false, title: "", message: "", type: 'success' as 'success' | 'error' | 'warning' });
+
+  const showModal = (title: string, message: string, type: 'success' | 'error' | 'warning' = 'success') => {
+    setModal({ isOpen: true, title, message, type });
+  };
 
   const handleLike = async () => {
     try {
@@ -18,7 +24,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
         const updatedPost = await res.json();
         setPost({ ...post, likes: updatedPost.likes, isLiked: true });
       } else if (res.status === 400) {
-        alert("You have already liked this post.");
+        showModal("Already Liked", "You have already liked this post.", "warning");
       }
     } catch (err) {
       console.error('Error liking post:', err);
@@ -39,7 +45,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      showModal("Link Copied", "The blog link has been copied to your clipboard!", "success");
     }
   };
 
@@ -99,6 +105,13 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
 
   return (
     <div className="min-h-screen bg-white pb-24">
+      <Modal 
+        isOpen={modal.isOpen} 
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+      />
       {/* Navigation Header */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Search, Languages, Loader2, BookOpen, Heart, Share2, Eye, PenTool } from "lucide-react";
 import Link from 'next/link';
+import Modal from './Modal';
 
 const Blogs = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -11,6 +12,11 @@ const Blogs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeLanguage, setActiveLanguage] = useState("ALL");
   const [categories, setCategories] = useState<any[]>([]);
+  const [modal, setModal] = useState({ isOpen: false, title: "", message: "", type: 'success' as 'success' | 'error' | 'warning' });
+
+  const showModal = (title: string, message: string, type: 'success' | 'error' | 'warning' = 'success') => {
+    setModal({ isOpen: true, title, message, type });
+  };
 
   useEffect(() => {
     // Fetch posts
@@ -52,7 +58,7 @@ const Blogs = () => {
         const updatedPost = await res.json();
         setPosts(posts.map(p => p._id === postId ? { ...p, likes: updatedPost.likes, isLiked: true } : p));
       } else if (res.status === 400) {
-        alert("You have already liked this post.");
+        showModal("Already Liked", "You have already liked this post.", "warning");
       }
     } catch (err) {
       console.error('Error liking post:', err);
@@ -76,7 +82,7 @@ const Blogs = () => {
     } else {
       // Fallback
       navigator.clipboard.writeText(`${window.location.origin}/blog/${post._id}`);
-      alert('Link copied to clipboard!');
+      showModal("Link Copied", "The blog link has been copied to your clipboard!", "success");
     }
   };
 
@@ -97,6 +103,13 @@ const Blogs = () => {
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
+      <Modal 
+        isOpen={modal.isOpen} 
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+      />
       {/* Header Section */}
       <section className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FFF9F2] border border-[#E5D4C0] rounded-full text-[#C24E00] font-bold text-xs uppercase tracking-wider shadow-sm">

@@ -54,7 +54,7 @@ export default function AdminDashboard() {
     });
 
     if (img.width !== 1080 || img.height !== 1080) {
-      alert("Please upload an image with 1080x1080 dimensions only.");
+      showModal("Wait!", "Please upload an image with 1080x1080 dimensions only.", "warning");
       return;
     }
 
@@ -180,7 +180,7 @@ export default function AdminDashboard() {
 
   const handleAddCategory = async () => {
     if (!newCategory.trim()) {
-      alert("Please enter a category name");
+      showModal("Missing Info", "Please enter a category name", "warning");
       return;
     }
     try {
@@ -190,13 +190,14 @@ export default function AdminDashboard() {
       if (response.data && response.data._id) {
         setCategories(prev => [...prev, response.data]);
         setNewCategory("");
+        showModal("Success!", "Category added successfully!", "success");
       } else {
-        alert("Server returned invalid data");
+        showModal("Error", "Server returned invalid data", "error");
       }
     } catch (err: any) {
       console.error("Add category error:", err);
       const errorMsg = err.response?.data?.error || err.message || "Failed to add category";
-      alert(errorMsg);
+      showModal("Error", errorMsg, "error");
     }
   };
 
