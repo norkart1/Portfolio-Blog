@@ -19,27 +19,27 @@ export default function BlogHome() {
       </main>
 
       {/* Persistent Navigation */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-lg bg-white/80 backdrop-blur-md border border-gray-100 rounded-full shadow-2xl p-2 z-50">
-        <div className="flex items-center justify-around px-2">
+      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-md bg-white border border-gray-100 rounded-2xl shadow-xl p-1.5 z-50">
+        <div className="flex items-center justify-between px-1">
           <button 
             onClick={() => setActiveTab("home")}
-            className={`flex items-center justify-center p-4 rounded-full transition-all duration-300 ${activeTab === "home" ? "bg-[#D1510A] text-white shadow-lg scale-110" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+            className={`flex items-center justify-center p-3 rounded-xl transition-all duration-200 ${activeTab === "home" ? "bg-[#D1510A] text-white shadow-md" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
           >
-            <Home className="h-6 w-6" />
+            <Home className="h-5 w-5" />
           </button>
           
           <button 
             onClick={() => setActiveTab("blogs")}
-            className={`flex items-center justify-center p-5 rounded-full transition-all duration-300 ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-lg shadow-orange-900/20 scale-110" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+            className={`flex items-center justify-center p-3.5 rounded-xl transition-all duration-200 ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-md" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
           >
-            <BookOpen className="h-7 w-7" />
+            <BookOpen className="h-6 w-6" />
           </button>
           
           <button 
             onClick={() => setActiveTab("socials")}
-            className={`flex items-center justify-center p-4 rounded-full transition-all duration-300 ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-lg scale-110" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+            className={`flex items-center justify-center p-3 rounded-xl transition-all duration-200 ${activeTab === "socials" ? "bg-[#D1510A] text-white shadow-md" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
           >
-            <User className="h-6 w-6" />
+            <User className="h-5 w-5" />
           </button>
         </div>
       </nav>
