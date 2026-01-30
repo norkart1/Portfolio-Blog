@@ -231,7 +231,7 @@ export default function AdminDashboard() {
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-gray-100 p-6 fixed h-full z-30">
         <div className="mb-10 px-2">
-          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Admin <span className="text-[#C24E00]">Panel</span></h2>
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Muhammed <span className="text-[#C24E00]">Navas Ms</span></h2>
         </div>
         <nav className="flex-1 space-y-2">
           {navItems.map((item) => {
@@ -539,8 +539,8 @@ export default function AdminDashboard() {
                     
                     <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-50">
                       <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-xl bg-[#C24E00] flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-orange-900/20">
-                          {post.author[0]}
+                        <div className="h-8 w-8 rounded-xl bg-[#C24E00] flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-orange-900/20 overflow-hidden border border-gray-100/10">
+                          <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
                         </div>
                         <div>
                           <p className="text-xs font-bold text-gray-900 leading-none">{post.author}</p>
@@ -660,8 +660,8 @@ export default function AdminDashboard() {
               Admin Profile
             </div>
             <div className="bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 text-center">
-              <div className="h-32 w-32 bg-[#C24E00] rounded-[2.5rem] mx-auto flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl shadow-orange-900/20">
-                {session.user?.name?.[0]}
+              <div className="h-32 w-32 bg-[#C24E00] rounded-[2.5rem] mx-auto flex items-center justify-center text-white text-4xl font-bold mb-6 shadow-2xl shadow-orange-900/20 overflow-hidden border border-gray-100/10">
+                <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900">{session.user?.name}</h3>
               <p className="text-lg text-gray-500 mb-8">{session.user?.email}</p>

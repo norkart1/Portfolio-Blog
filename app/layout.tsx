@@ -33,8 +33,11 @@ const anekLatin = Anek_Latin({
 });
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Blog site administration",
+  title: "Muhammed Navas Ms",
+  description: "Multilingual Blog & Portfolio",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

@@ -176,8 +176,8 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
               className="w-12 h-12 rounded-2xl object-cover border border-gray-100 shadow-sm"
             />
           ) : (
-            <div className="w-12 h-12 rounded-2xl bg-[#C24E00] flex items-center justify-center text-white font-black text-xl">
-              {post.author?.[0] || 'A'}
+            <div className="w-12 h-12 rounded-2xl bg-[#C24E00] flex items-center justify-center text-white font-black text-xl overflow-hidden border border-gray-100 shadow-sm">
+              <img src="/logo.png" alt="Muhammed Navas Ms" className="w-full h-full object-cover" />
             </div>
           )}
           <div>
