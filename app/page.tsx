@@ -32,7 +32,9 @@ export default function BlogHome() {
             onClick={() => setActiveTab("blogs")}
             className={`flex items-center justify-center p-3.5 rounded-xl transition-all duration-200 ${activeTab === "blogs" ? "bg-[#D1510A] text-white shadow-md" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
           >
-            <BookOpen className="h-6 w-6" />
+            <div className={`h-6 w-6 rounded-lg overflow-hidden border border-gray-100 shadow-sm ${activeTab === 'blogs' ? 'brightness-110' : 'grayscale opacity-70'}`}>
+              <img src="/logo.png" alt="Blogs" className="w-full h-full object-cover" />
+            </div>
           </button>
           
           <button 

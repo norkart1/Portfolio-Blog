@@ -247,7 +247,9 @@ export default function AdminDashboard() {
                     : "text-[#333333] hover:bg-gray-50"
                 }`}
               >
-                <Icon className={`h-5 w-5 ${isActive ? "stroke-[2.5px]" : "stroke-[1.8px]"}`} />
+                <div className={`h-6 w-6 rounded-lg overflow-hidden border border-gray-100 shadow-sm ${isActive ? 'brightness-110' : 'grayscale opacity-70'}`}>
+                  <img src="/logo.png" alt={item.label} className="w-full h-full object-cover" />
+                </div>
                 <span className="font-bold text-sm">{item.label}</span>
               </button>
             );
