@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Search, Languages, Loader2, BookOpen, Heart } from "lucide-react";
+import { Search, Languages, Loader2, BookOpen, Heart, Share2, Eye, PenTool } from "lucide-react";
 import Link from 'next/link';
 
 const Blogs = () => {
@@ -139,61 +139,60 @@ const Blogs = () => {
           </div>
         ) : filteredPosts.length > 0 ? (
           filteredPosts.map((post: any) => (
-            <Link key={post._id} href={`/blog/${post._id}`} className="block group">
-              <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md h-full flex flex-col">
-                <div className="aspect-[4/3] overflow-hidden">
+            <Link key={post._id} href={`/blog/${post._id}`} className="block group mb-12">
+              <div className="bg-white rounded-3xl overflow-hidden transition-all duration-300 h-full flex flex-col">
+                
+                {/* Author Header */}
+                <div className="flex items-center gap-4 p-4 border-b border-gray-50">
+                  <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center border border-gray-100 shadow-inner">
+                    <PenTool className="h-5 w-5 text-gray-500" />
+                  </div>
+                  <div className="flex flex-col">
+                    <h4 className="text-sm font-bold text-gray-900 leading-tight uppercase tracking-tight">
+                      {post.author || "Hafiz Rashid Hussain"}
+                    </h4>
+                    <span className="text-xs text-gray-400 font-medium tracking-tight">
+                      Editorial Contributor
+                    </span>
+                  </div>
+                </div>
+
+                {/* Main Image with Share Button */}
+                <div className="relative aspect-video mx-4 mt-6 rounded-[2.5rem] overflow-hidden group/image shadow-sm">
                   <img 
                     src={post.image || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <button 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    className="absolute top-4 right-4 h-10 w-10 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center text-gray-600 shadow-lg hover:bg-white transition-all active:scale-95"
+                  >
+                    <Share2 className="h-5 w-5" />
+                  </button>
                 </div>
                 
-                <div className="p-8 flex-1 flex flex-col">
-                  {/* Meta Info */}
-                  <div className={`flex items-center gap-2 mb-4 text-[10px] font-bold tracking-widest uppercase ${
+                <div className="p-6 pt-8 flex-1 flex flex-col items-center text-center">
+                  {/* Title & Engagement Stats */}
+                  <h3 className={`font-bold text-2xl mb-6 text-gray-900 leading-tight group-hover:text-[#C24E00] transition-colors ${
                     post.language === 'ar' ? 'font-rubik' : 'font-anek'
-                  }`}>
-                    <span className="text-[#C24E00]">
-                      {post.language === "en" ? "ENGLISH" : post.language?.toUpperCase() || "ENGLISH"}
-                    </span>
-                    <span className="text-gray-300">•</span>
-                    <span className="text-gray-400">
-                      {formatDate(post.createdAt)}
-                    </span>
-                  </div>
-                  
-                  {/* Title */}
-                  <h3 className={`font-bold text-3xl mb-4 text-gray-900 leading-tight group-hover:text-[#C24E00] transition-colors ${
-                    post.language === 'ar' ? 'font-rubik text-right' : 'font-anek'
                   }`}>
                     {post.title}
                   </h3>
                   
-                  {/* Content Preview */}
-                  <div 
-                    className={`text-gray-500 text-base leading-relaxed line-clamp-3 mb-8 prose prose-sm max-w-none ${
-                      post.language === 'ar' ? 'font-rubik text-right rtl' : 'font-anek'
-                    }`}
-                    style={{ direction: post.language === 'ar' ? 'rtl' : 'ltr' }}
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />
-                  
-                  <div className="mt-auto">
-                    {/* Divider */}
-                    <div className="h-px bg-gray-50 w-full mb-6"></div>
+                  {/* Footer Stats */}
+                  <div className="flex items-center justify-center gap-8 w-full mt-auto text-gray-500 pb-2">
+                    <div className="flex items-center gap-2 group/stat">
+                      <Eye className="h-5 w-5 text-gray-400 group-hover/stat:text-[#D1510A] transition-colors" />
+                      <span className="text-sm font-bold tracking-tight">{post.views || 11}</span>
+                    </div>
                     
-                    {/* Footer */}
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <p className="font-bold text-sm text-gray-900 leading-tight">{post.author}</p>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.readTime || '5 min'}</p>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full shadow-sm text-gray-400">
-                        <Heart className="h-4 w-4" />
-                        <span className="text-xs font-bold">{post.likes || 0}</span>
-                      </div>
+                    <div className="flex items-center gap-2 group/stat">
+                      <Heart className="h-5 w-5 text-gray-400 group-hover/stat:text-red-500 transition-colors" />
+                      <span className="text-sm font-bold tracking-tight">{post.likes || 8}</span>
                     </div>
                   </div>
                 </div>
