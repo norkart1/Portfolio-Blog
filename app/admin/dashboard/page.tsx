@@ -69,14 +69,35 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleEdit = (post: any) => {
+    setEditingPostId(post._id);
+    setNewPost({
+      title: post.title,
+      content: post.content,
+      category: post.category?._id || post.category || "",
+      image: post.image,
+      language: post.language || "en",
+      textAlign: post.textAlign || "left",
+      textColor: post.textColor || "#333333",
+      authorName: post.author || "",
+      authorProfile: post.authorProfile || ""
+    });
+    setActiveTab("add");
+  };
+
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
+
   const handlePublish = async () => {
     if (!newPost.title || !newPost.content || !newPost.category || !newPost.image) {
       alert("Please fill all fields and upload an image");
       return;
     }
 
-    const res = await fetch("/api/posts", {
-      method: "POST",
+    const url = editingPostId ? `/api/posts/${editingPostId}` : "/api/posts";
+    const method = editingPostId ? "PATCH" : "POST";
+
+    const res = await fetch(url, {
+      method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...newPost,
@@ -88,9 +109,13 @@ export default function AdminDashboard() {
     });
 
     if (res.ok) {
-      alert("Post published successfully!");
-      setNewPost({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left", textColor: "#333333" });
+      alert(editingPostId ? "Post updated successfully!" : "Post published successfully!");
+      setNewPost({ title: "", content: "", category: "", image: "", language: "en", textAlign: "left", textColor: "#333333", authorName: "", authorProfile: "" });
+      setEditingPostId(null);
       setActiveTab("posts");
+      // Refresh posts list
+      const postRes = await axios.get("/api/posts");
+      setPosts(Array.isArray(postRes.data) ? postRes.data : []);
     }
   };
 
@@ -510,7 +535,11 @@ export default function AdminDashboard() {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        <button className="h-10 w-10 flex items-center justify-center bg-gray-50 text-blue-600 rounded-2xl hover:bg-blue-50 transition-colors" title="Edit">
+                        <button 
+                          onClick={() => handleEdit(post)}
+                          className="h-10 w-10 flex items-center justify-center bg-gray-50 text-blue-600 rounded-2xl hover:bg-blue-50 transition-colors" 
+                          title="Edit"
+                        >
                           <PenTool className="h-5 w-5" />
                         </button>
                         <button onClick={() => handleDeletePost(post._id)} className="h-10 w-10 flex items-center justify-center bg-gray-50 text-red-600 rounded-2xl hover:bg-red-50 transition-colors" title="Delete">
