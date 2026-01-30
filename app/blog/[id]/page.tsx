@@ -40,15 +40,37 @@ export default function BlogDetailPage({ params }: { params: Promise<{ id: strin
   };
 
   useEffect(() => {
-    if (post && !loading) {
-      fetch(`/api/posts/${post._id}/view`, { method: 'POST' })
-        .then(res => res.json())
-        .then(updatedPost => {
-          if (updatedPost.views) {
-            setPost((prev: any) => ({ ...prev, views: updatedPost.views }));
-          }
-        })
-        .catch(err => console.error('Error incrementing view:', err));
+    let isMounted = true;
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`/api/posts?id=${resolvedParams.id}`);
+        const data = await res.json();
+        if (isMounted) {
+          setPost(data);
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Error fetching post:', err);
+        if (isMounted) setLoading(false);
+      }
+    };
+    fetchPost();
+    return () => { isMounted = false; };
+  }, [resolvedParams.id]);
+
+  useEffect(() => {
+    if (post?._id && !loading) {
+      const timer = setTimeout(() => {
+        fetch(`/api/posts/${post._id}/view`, { method: 'POST' })
+          .then(res => res.json())
+          .then(updatedPost => {
+            if (updatedPost.views) {
+              setPost((prev: any) => (prev?._id === post._id ? { ...prev, views: updatedPost.views } : prev));
+            }
+          })
+          .catch(err => console.error('Error incrementing view:', err));
+      }, 2000); // Delay view increment to avoid blocking initial render
+      return () => clearTimeout(timer);
     }
   }, [post?._id, loading]);
 
