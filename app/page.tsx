@@ -8,7 +8,7 @@ import Socials from "@/components/Socials";
 import { Home, BookOpen, User } from "lucide-react";
 
 export default function BlogHome() {
-  const [activeTab, setActiveTab] = useState("blogs");
+  const [activeTab, setActiveTab] = useState("home");
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans text-gray-900 lg:flex lg:flex-row flex-col">
